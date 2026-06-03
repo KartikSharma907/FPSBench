@@ -1,26 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="FPS-Bench: A Benchmark for High Frame-Rate Video Understanding. A 1000-question video QA benchmark that evaluates whether video-language models can perceive rapid, high-frequency temporal events.">
+  <meta name="keywords" content="FPS-Bench, minFPS, high frame-rate, video understanding, VLM, video question answering, temporal reasoning, CVPR 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>FPS-Bench: A Benchmark for High Frame-Rate Video Understanding</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
+  <!-- Open Graph -->
+  <meta property="og:title" content="FPS-Bench: A Benchmark for High Frame-Rate Video Understanding">
+  <meta property="og:description" content="Can video-language models perceive rapid, high-frequency events? FPS-Bench introduces minFPS and reveals a major capability gap: VLMs reach ~30% vs. 72.2% for humans.">
+  <meta property="og:type" content="website">
+  <!-- TODO: update og:image once a public URL is available -->
+  <meta property="og:image" content="./static/images/teaser.png">
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -42,132 +35,83 @@
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav>
-
-
-<section class="hero">
+<!-- ============================= HERO ============================= -->
+<section class="hero fps-hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-1 publication-title fps-title">
+            FPS-Bench: A Benchmark for<br>High <span class="fps-accent">Frame-Rate</span> Video Understanding
+          </h1>
+
           <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
-            <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
-            </span>
+            <span class="author-block">Rohan Choudhury<sup>*</sup>,</span>
+            <span class="author-block">Jean-Sebastien Dandurand<sup>*</sup>,</span>
+            <span class="author-block">Kai Qiu,</span>
+            <span class="author-block">Kshitij Madhav Bhat,</span>
+            <span class="author-block">Kartik Sharma,</span>
+            <span class="author-block">Liza Dahiya,</span>
+            <span class="author-block">Yizhou Zhao,</span>
+            <span class="author-block">Souraja Kundu,</span>
+            <span class="author-block">Chun-Hsien Lin,</span>
+            <span class="author-block">Kris M. Kitani<sup>&dagger;</sup>,</span>
+            <span class="author-block">L&aacute;szl&oacute; A. Jeni<sup>&dagger;</sup></span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+            <span class="author-block">Carnegie Mellon University</span>
           </div>
 
-          <div class="column has-text-centered">
+          <div class="is-size-6 publication-authors fps-eq" style="margin-top:0.4rem;">
+            <span class="author-block"><sup>*</sup>Equal contribution</span>&nbsp;&nbsp;
+            <span class="author-block"><sup>&dagger;</sup>Equal advising</span>&nbsp;&nbsp;
+            <span class="author-block"><a href="mailto:rchoudhu@andrew.cmu.edu">rchoudhu@andrew.cmu.edu</a></span>
+          </div>
+
+          <div class="publication-venue fps-venue">CVPR 2026</div>
+
+          <div class="column has-text-centered" style="margin-top:1.3rem;">
             <div class="publication-links">
-              <!-- PDF Link. -->
+              <!-- Paper. TODO: replace with final paper / arXiv PDF URL -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
+                <a href="#" class="external-link button is-normal is-rounded fps-btn">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
                   <span>Paper</span>
                 </a>
               </span>
+              <!-- arXiv. TODO: replace with arXiv abstract URL -->
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
+                <a href="#" class="external-link button is-normal is-rounded fps-btn">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
                   <span>arXiv</span>
                 </a>
               </span>
-              <!-- Video Link. -->
+              <!-- Code. TODO: replace with GitHub repo URL -->
               <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
+                <a href="#" class="external-link button is-normal is-rounded fps-btn">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
                 </a>
               </span>
-              <!-- Code Link. -->
+              <!-- Dataset. TODO: replace with dataset (HuggingFace / download) URL -->
               <span class="link-block">
-                <a href="https://github.com/google/nerfies"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
+                <a href="#" class="external-link button is-normal is-rounded fps-btn is-amber">
+                  <span class="icon"><i class="far fa-images"></i></span>
+                  <span>Dataset</span>
+                </a>
               </span>
-              <!-- Dataset Link. -->
+              <!-- Benchmark / leaderboard. TODO: replace with eval / leaderboard URL -->
               <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
+                <a href="#" class="external-link button is-normal is-rounded fps-btn">
+                  <span class="icon"><i class="fas fa-chart-bar"></i></span>
+                  <span>Benchmark</span>
+                </a>
+              </span>
             </div>
-
+            <p class="is-size-7 fps-eq" style="margin-top:0.7rem;">
+              Code &amp; data coming soon &mdash; links above are placeholders.
+            </p>
           </div>
         </div>
       </div>
@@ -175,310 +119,507 @@
   </div>
 </section>
 
+<!-- ============================= TEASER ============================= -->
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
+      <div class="fps-figure">
+        <img src="./static/images/teaser.png"
+             alt="A camera-flash question: at 2 FPS and 4 FPS the flash frame is missed, but at 14 FPS the flash is clearly visible. A radar plot compares VLM accuracy against human performance across nine categories.">
+        <p class="fps-caption has-text-centered">
+          <strong>FPS-Bench</strong> evaluates video-language models on questions that cannot be answered unless
+          the video is sampled at a sufficiently high frame rate. Here, a brief camera flash is
+          <em>missed at 2&ndash;4 FPS</em> but becomes visible at <strong>14 FPS</strong>. <em>(Right)</em> Across nine
+          temporal categories, state-of-the-art VLMs trail far behind human performance.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
+<hr class="fps-divider">
 
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
+<!-- ============================= ABSTRACT ============================= -->
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <p class="fps-kicker">Abstract</p>
+        <h2 class="title is-3 fps-section-title">Do video models really see fast events?</h2>
+        <div class="content has-text-justified">
+          <p>
+            Modern video-language models are typically trained and evaluated on videos downsampled to low
+            frame rates, and many widely used video understanding benchmarks can be solved with sparse
+            temporal sampling. We introduce <strong>FPS-Bench</strong>, a large-scale video question-answering
+            benchmark designed to evaluate whether VLMs can perceive and reason about rapid, high-frequency
+            events. FPS-Bench introduces <strong class="fps-mono">minFPS</strong> &mdash; minimum frames-per-second &mdash;
+            a metric that measures the lowest frame rate required to solve a video-question pair. The benchmark
+            contains <strong>1,000 multiple-choice questions</strong> from <strong>554 videos</strong>, spanning
+            <strong>nine temporal reasoning categories</strong> and diverse visual domains. Every example requires
+            at least 4 FPS, with an average minFPS of approximately 6.8 FPS. Evaluating state-of-the-art open-
+            and closed-source VLMs reveals a substantial gap: current models achieve only around
+            <strong>30% accuracy</strong>, while humans achieve <strong>72.2%</strong>. FPS-Bench exposes a critical
+            blind spot in current video-language models and provides a focused benchmark for developing models
+            that truly understand high-frame-rate video.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="fps-divider">
+
+<!-- ============================= CONTRIBUTIONS ============================= -->
+<section class="section" id="contributions">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered" style="margin-bottom:2rem;">
+      <p class="fps-kicker">Key Contributions</p>
+      <h2 class="title is-3 fps-section-title">What FPS-Bench brings</h2>
+    </div>
+    <div class="card-grid cols-3">
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-photo-video"></i></span>
+        <h3>High-FPS Video QA Benchmark</h3>
+        <p>
+          A multiple-choice video question-answering benchmark focused on rapid, high-frequency temporal
+          events that are missed by standard low-FPS sampling &mdash; spanning nine distinct temporal categories.
+        </p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-tachometer-alt"></i></span>
+        <h3>Minimum Necessary Frame Rate</h3>
+        <p>
+          We propose <strong class="fps-mono">minFPS</strong>, a metric that quantifies the minimum frame rate
+          required to correctly answer a video-question pair &mdash; with a mandatory floor of 4 FPS and an
+          average of 6.8 FPS.
+        </p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-exclamation-triangle"></i></span>
+        <h3>Revealing a VLM Blind Spot</h3>
+        <p>
+          State-of-the-art VLMs perform only slightly above random chance (~30% vs. 25%), while humans reach
+          72.2% &mdash; demonstrating a significant gap in fine-grained temporal understanding.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= DATASET ============================= -->
+<section class="section bg-soft" id="dataset">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered" style="margin-bottom:2rem;">
+      <p class="fps-kicker">The Dataset</p>
+      <h2 class="title is-3 fps-section-title">The FPS-Bench Dataset</h2>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:2.2rem;">
+      <div class="stat-card"><div class="stat-num">1,000</div><div class="stat-label">Questions</div></div>
+      <div class="stat-card"><div class="stat-num">554</div><div class="stat-label">Videos</div></div>
+      <div class="stat-card"><div class="stat-num">9</div><div class="stat-label">Temporal Categories</div></div>
+      <div class="stat-card is-amber"><div class="stat-num">&ge; 4</div><div class="stat-label">FPS Required (minFPS floor)</div></div>
+      <div class="stat-card is-amber"><div class="stat-num">6.67</div><div class="stat-label">Median minFPS&nbsp;(6.8 avg)</div></div>
+      <div class="stat-card"><div class="stat-num">72.2%</div><div class="stat-label">Human Accuracy</div></div>
+      <div class="stat-card"><div class="stat-num">~30%</div><div class="stat-label">Best VLM Accuracy</div></div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            FPS-Bench questions are designed so that the correct answer <em>cannot</em> be verified below a minimum
+            frame rate. Annotators measure <strong class="fps-mono">minFPS</strong> by progressively adjusting the
+            frame-sampling rate until the correct answer becomes unambiguously verifiable. This directly tests
+            whether models can perceive and reason over rapid temporal evidence, rather than relying on static
+            scene cues or sparse frame samples. Videos are sourced from the large and diverse YouTube-8M dataset,
+            spanning five high-level visual domains: Media &amp; Entertainment, Hobbies &amp; Gaming,
+            Sports &amp; Fitness, Vehicles, and Miscellaneous.
+          </p>
+        </div>
+        <div class="fps-figure" style="margin-top:1.2rem;">
+          <img src="./static/images/dataset_stats.png"
+               alt="Sunburst chart of FPS-Bench's visual domains and question categories, alongside per-category time-duration and average minFPS distributions.">
+          <p class="fps-caption">
+            <strong>Dataset statistics.</strong> FPS-Bench is uniformly distributed across question categories and
+            drawn from a wide range of visual domains. Each question is annotated with its minFPS; all questions
+            have a minFPS of at least 4, with an average of 6.67. Categories such as <em>Blink &amp; Miss</em>
+            require the highest frame rates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CATEGORIES ============================= -->
+<section class="section" id="categories">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered" style="margin-bottom:2rem;">
+      <p class="fps-kicker">Question Types</p>
+      <h2 class="title is-3 fps-section-title">Nine high-frame-rate temporal categories</h2>
+    </div>
+    <div class="card-grid cols-3-cat">
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-redo"></i></span>
+        <h3>Repetitive Motion</h3>
+        <p>Counting cycles or repetitions of a sustained, high-speed periodic action, such as drumstick hits or fan rotations.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-tachometer-alt"></i></span>
+        <h3>Speed Recognition</h3>
+        <p>Inferring or comparing relative speed where the distinction is only visible over time at a sufficient frame rate.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-running"></i></span>
+        <h3>Fine-Grained Motion</h3>
+        <p>Identifying subtle differences in movement, form, or trajectory that distinguish correct execution.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-list-ol"></i></span>
+        <h3>Action Order</h3>
+        <p>Sequencing events that occur nearly simultaneously or in rapid succession.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-bullseye"></i></span>
+        <h3>State at Event</h3>
+        <p>Identifying the precise state or attribute of an object at the exact moment of a rapid interaction.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-bolt"></i></span>
+        <h3>Blink and Miss</h3>
+        <p>Detecting sudden, non-repetitive, extremely short-duration visual events that may appear in only one or two frames.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-project-diagram"></i></span>
+        <h3>Causality Detection</h3>
+        <p>Determining the temporal relationship between events to identify which caused a subsequent event.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-arrows-alt-h"></i></span>
+        <h3>Synchronization Assessment</h3>
+        <p>Determining whether multiple high-frequency actions occur simultaneously or whether one precedes another.</p>
+      </div>
+      <div class="fps-card">
+        <span class="cat-icon"><i class="fas fa-hashtag"></i></span>
+        <h3>Instance Count</h3>
+        <p>Counting the exact number of discrete rapid events within a time interval.</p>
+      </div>
+    </div>
+
+    <!-- Example carousel of real category figures -->
+    <div style="margin-top:2.5rem;">
+      <h3 class="title is-5 fps-section-title has-text-centered">Examples from the benchmark</h3>
       <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_repetitivemotion.png" alt="Repetitive Motion example: how many rotations does the gymnast do?">
         </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_blinkandmiss.png" alt="Blink and Miss example: detecting a very brief transient visual event.">
         </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_actionorder.png" alt="Action Order example: sequencing events in rapid succession.">
         </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_speedrecognition.png" alt="Speed Recognition example: comparing relative speed over time.">
         </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_stateatevent.png" alt="State at Event example: identifying the state of an object at a precise moment.">
         </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_causalitydetection.png" alt="Causality Detection example: determining which event caused another.">
         </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_syncassessment.png" alt="Synchronization Assessment example: do two high-frequency actions occur at the same time?">
         </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_instancecount.png" alt="Instance Count example: counting discrete rapid events within an interval.">
+        </div>
+        <div class="item">
+          <img class="cat-example" src="./static/images/example_finegrainedmotion.png" alt="Fine-Grained Motion example: distinguishing subtle differences in technique.">
         </div>
       </div>
     </div>
   </div>
 </section>
 
-
-<section class="section">
+<!-- ============================= minFPS ============================= -->
+<section class="section bg-soft" id="minfps">
   <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
+    <div class="has-text-centered" style="margin-bottom:1.5rem;">
+      <p class="fps-kicker">The Metric</p>
+      <h2 class="title is-3 fps-section-title">What is minFPS?</h2>
+    </div>
+
+    <div class="columns is-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
+            <strong class="fps-mono">minFPS</strong> is the minimum integer frame rate at which a human annotator
+            can consistently verify the correct answer for a video-question pair. If the video is sampled below
+            this threshold, the visual evidence needed to answer the question is lost. Annotators begin viewing at
+            1 FPS and incrementally raise the rate until the answer is unambiguously verifiable, simulating the
+            standard frame-downsampling process used by modern VLMs.
           </p>
         </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
 
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="fps-callout" style="margin:1.5rem 0;">
+          <div class="eq"><span class="fps-mono">minFPS</span> = lowest <span class="hl">FPS</span> needed to verify the answer</div>
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            Traditional benchmarks may require watching a particular time interval, but they often do not measure
+            whether the necessary frames survive temporal downsampling. A 10-minute video sampled at 1 FPS and one
+            sampled at 30 FPS have the same temporal-certificate length, yet the 1 FPS video contains far fewer
+            frames &mdash; often making rapid events indistinguishable. <strong>FPS-Bench focuses on this missing
+            dimension: the frame rate required to preserve the evidence itself.</strong>
+          </p>
+        </div>
+
+        <!-- Pipeline diagram -->
+        <div class="pipeline" style="margin-top:1.5rem;">
+          <div class="step">
+            <div class="s-icon"><i class="fas fa-film"></i></div>
+            <h4>Full Video</h4>
+            <p>Native high frame rate (24&ndash;30 FPS)</p>
+          </div>
+          <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="step">
+            <div class="s-icon"><i class="fas fa-cut"></i></div>
+            <h4>Downsampled</h4>
+            <p>Sparse frames at low FPS</p>
+          </div>
+          <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="step">
+            <div class="s-icon"><i class="fas fa-eye-slash"></i></div>
+            <h4>Event Lost</h4>
+            <p>Transient cue disappears between frames</p>
+          </div>
+          <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="step is-final">
+            <div class="s-icon"><i class="fas fa-check-circle"></i></div>
+            <h4>minFPS Threshold</h4>
+            <p>Evidence preserved &rarr; answer becomes verifiable</p>
+          </div>
         </div>
       </div>
     </div>
-    <!--/ Paper video. -->
   </div>
 </section>
 
-
-<section class="section">
+<!-- ============================= COMPARISON ============================= -->
+<section class="section" id="comparison">
   <div class="container is-max-desktop">
-
+    <div class="has-text-centered" style="margin-bottom:2rem;">
+      <p class="fps-kicker">Benchmark Comparison</p>
+      <h2 class="title is-3 fps-section-title">FPS-Bench requires higher frame rates</h2>
+    </div>
     <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
+      <div class="column is-four-fifths">
+        <div class="fps-figure">
+          <img src="./static/images/minfps_comparison.png"
+               alt="Bar chart of average minFPS across benchmarks: FPS-Bench 6.7, AirLetters 2.73, MotionBench 1.9, MVBench 0.8, Perception Test 0.34, EgoSchema 0.25, Video-MME 0.1, Video-MMMU 0.1.">
+          <p class="fps-caption">
+            <strong>Comparing minFPS across datasets.</strong> FPS-Bench has a substantially higher average minFPS
+            than widely used video understanding benchmarks such as Video-MME, EgoSchema, MVBench, Perception Test,
+            MotionBench, and AirLetters &mdash; exceeding even fine-grained-motion benchmarks by more than 2.5&times;.
           </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
         </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
+        <div class="content has-text-justified" style="margin-top:1.2rem;">
+          <p>
+            Unlike long-video benchmarks that can often be solved with sparse temporal sampling, FPS-Bench requires
+            <strong>dense short-term temporal perception</strong>. While benchmarks like EgoSchema and Video-MME
+            test long-video understanding, their minFPS is extremely low because heavy downsampling still leaves
+            enough context for longer inputs.
+          </p>
         </div>
       </div>
     </div>
-    <!--/ Matting. -->
+  </div>
+</section>
 
-    <!-- Animation. -->
+<!-- ============================= RESULTS ============================= -->
+<section class="section bg-soft" id="results">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered" style="margin-bottom:2rem;">
+      <p class="fps-kicker">Results</p>
+      <h2 class="title is-3 fps-section-title">Current VLMs struggle on FPS-Bench</h2>
+    </div>
+
     <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
+      <div class="column is-three-quarters">
+        <div class="fps-table-wrap">
+          <table class="fps-table">
+            <thead>
+              <tr><th>Model</th><th class="num">Overall Accuracy</th></tr>
+            </thead>
+            <tbody>
+              <tr class="is-random">
+                <td>Random baseline</td>
+                <td class="num bar-cell"><span class="bar" style="width:25px;"></span>25.0%</td>
+              </tr>
+              <tr>
+                <td>Gemini 2.5 Pro</td>
+                <td class="num bar-cell"><span class="bar" style="width:29px;"></span>28.9%</td>
+              </tr>
+              <tr>
+                <td>Qwen-3-VL-32B</td>
+                <td class="num bar-cell"><span class="bar" style="width:31px;"></span>30.7%</td>
+              </tr>
+              <tr>
+                <td>Oryx</td>
+                <td class="num bar-cell"><span class="bar" style="width:31px;"></span>31.3%</td>
+              </tr>
+              <tr class="is-best">
+                <td>GPT-4o <span class="tag is-small" style="background:#eef0fa;color:#3b3f9e;">best VLM</span></td>
+                <td class="num bar-cell"><span class="bar" style="width:32px;"></span>31.8%</td>
+              </tr>
+              <tr class="is-human">
+                <td>Human Performance</td>
+                <td class="num bar-cell human"><span class="bar" style="width:72px;"></span>72.2%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
+        <div class="content has-text-justified" style="margin-top:1.5rem;">
           <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
+            Across open-source, closed-source, video-native, and image-based VLMs, model performance remains far
+            below human accuracy. Even when videos are slowed down or sampled at higher frame rates, models do not
+            close the gap &mdash; suggesting that the limitation is not only input frame access but also fine-grained
+            temporal perception and reasoning. Notably, the open-source Oryx outperforms Gemini 2.5 Pro, hinting
+            that the gap between open and closed video models is narrowing.
           </p>
         </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
-        </div>
-        <br/>
-        <!--/ Interpolating. -->
 
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
+        <div class="fps-figure" style="margin-top:1.5rem;">
+          <img src="./static/images/accuracy_by_fps.png"
+               alt="Bar chart of GPT-4o accuracy by minFPS bucket, showing the worst performance on questions requiring around 7 FPS rather than steadily decreasing.">
+          <p class="fps-caption">
+            <strong>Accuracy vs. minFPS (GPT-4o).</strong> Performance does not decrease monotonically with frame
+            rate; GPT-4o is in fact worst on questions requiring around 7 FPS, underscoring that the difficulty is
+            rooted in temporal perception, not merely access to frames.
           </p>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FAILURE CASES ============================= -->
+<section class="section" id="failure-cases">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered" style="margin-bottom:2rem;">
+      <p class="fps-kicker">Analysis</p>
+      <h2 class="title is-3 fps-section-title">Why do models fail?</h2>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="card-grid cols-3" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-bottom:1.5rem;">
+          <div class="fps-card">
+            <span class="cat-icon"><i class="fas fa-eye-slash"></i></span>
+            <h3>Missing decisive events</h3>
+            <p>Models miss brief but decisive events &mdash; a small flash, contact, bounce, or kick &mdash; even when the relevant frames are provided.</p>
+          </div>
+          <div class="fps-card">
+            <span class="cat-icon"><i class="fas fa-sort-numeric-down"></i></span>
+            <h3>Losing temporal order &amp; count</h3>
+            <p>Models struggle to maintain fine-grained temporal order or to count rapid events, performing especially poorly on instance counting.</p>
+          </div>
+        </div>
+
+        <div class="fps-figure">
+          <img src="./static/images/failure_case.png"
+               alt="A representative failure: a frontier VLM answers a high-frame-rate question incorrectly because it misses a small but decisive visual detail.">
+          <p class="fps-caption">
+            <strong>Representative failure.</strong> Models can miss small but decisive visual details even when
+            provided with the necessary frames, leading to confident but incorrect answers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CALL TO ACTION ============================= -->
+<section class="section bg-soft">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <p class="fps-kicker">Get Started</p>
+        <h2 class="title is-3 fps-section-title">Use FPS-Bench</h2>
         <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
-      </div>
-    </div>
-    <!--/ Animation. -->
-
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
           <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+            FPS-Bench is designed to help evaluate and improve video-language models that need to reason over
+            high-frequency temporal events. It is especially relevant for models that claim strong video
+            understanding, temporal reasoning, or fine-grained motion perception.
           </p>
         </div>
+        <div class="publication-links" style="margin-top:1rem;">
+          <!-- TODO: replace with dataset download URL -->
+          <span class="link-block">
+            <a href="#" class="external-link button is-normal is-rounded fps-btn is-amber">
+              <span class="icon"><i class="fas fa-download"></i></span>
+              <span>Download Dataset</span>
+            </a>
+          </span>
+          <!-- TODO: replace with GitHub repo URL -->
+          <span class="link-block">
+            <a href="#" class="external-link button is-normal is-rounded fps-btn">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>View Code</span>
+            </a>
+          </span>
+          <!-- TODO: replace with evaluation harness / leaderboard URL -->
+          <span class="link-block">
+            <a href="#" class="external-link button is-normal is-rounded fps-btn">
+              <span class="icon"><i class="fas fa-flask"></i></span>
+              <span>Evaluate Your Model</span>
+            </a>
+          </span>
+        </div>
+        <p class="is-size-7 fps-eq" style="margin-top:0.8rem;">Public release coming soon.</p>
       </div>
     </div>
-    <!--/ Concurrent Work. -->
-
   </div>
 </section>
 
-
-<section class="section" id="BibTeX">
+<!-- ============================= BIBTEX ============================= -->
+<section class="section" id="citation">
   <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+    <h2 class="title is-3 fps-section-title">BibTeX</h2>
+    <!-- TODO: update BibTeX once the venue / arXiv metadata is finalized -->
+    <pre><code>@inproceedings{choudhury2026fpsbench,
+  title     = {FPS-Bench: A Benchmark for High Frame-Rate Video Understanding},
+  author    = {Choudhury, Rohan and Dandurand, Jean-Sebastien and Qiu, Kai and
+               Bhat, Kshitij Madhav and Sharma, Kartik and Dahiya, Liza and
+               Zhao, Yizhou and Kundu, Souraja and Lin, Chun-Hsien and
+               Kitani, Kris M. and Jeni, L\'aszl\'o A.},
+  booktitle = {CVPR},
+  year      = {2026}
 }</code></pre>
   </div>
 </section>
 
-
+<!-- ============================= FOOTER ============================= -->
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
+      <p class="fps-eq" style="margin-bottom:0.6rem;">
+        <strong>Acknowledgments.</strong> This work was partially supported by Fujitsu Research of America.
+        Rohan Choudhury is supported by the NSF GRFP.
+      </p>
     </div>
     <div class="columns is-centered">
       <div class="column is-8">
-        <div class="content">
-          <p>
+        <div class="content has-text-centered">
+          <p class="is-size-7">
             This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
+              href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+              Attribution-ShareAlike 4.0 International License</a>. The template is borrowed from the
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.
           </p>
         </div>
       </div>
