@@ -1,4 +1,51 @@
-.DS_store
-.idea
+# ---------------------------------------------------------------------------
+# FPS-Bench .gitignore
+# ---------------------------------------------------------------------------
+
+# Held-out answer key: maintainer-only artifacts that carry answers. The public
+# release is questions-only; these must NEVER be committed.
+annotations/fpsbench_v1.full.jsonl
+annotations/fpsbench_v1.full.csv
+annotations/fpsbench_v1.answers.jsonl
+*.answers.jsonl
+
+# Prepared / derived media and results are user-side artifacts; never commit.
+data/
+cache/
+downloaded_videos/
+downloaded_videos_tc/
+results/
+frames/
+*.mp4
+*.webm
+*.mkv
+
+# Secrets / tokens
+.env
+*.hf_token
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+
+# ---------------------------------------------------------------------------
+# Research / scratch files (NOT part of the public release). These live in the
+# working tree for the authors but must not be published.
+# ---------------------------------------------------------------------------
+run_*_benchmark.py
+streamlit_quiz.py
+add_categories_v2.py
+categorized_videos.csv
+task.md
+*.xlsx
+fpsbench-release/
 CVPR2026__FPSBench/
 *.pdf
+
+# Editor / OS
+.DS_store
+.idea

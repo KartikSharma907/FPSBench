@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fps-bench/fpsbench/annotations/fpsbench_v1.schema.json",
+  "title": "FPS-Bench annotation record",
+  "description": "One video-question-answer example in FPS-Bench v1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "split",
+    "source",
+    "time",
+    "question",
+    "temporal_requirements",
+    "categories",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^fpsbench_\\d{6}$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "split": {
+      "type": "string",
+      "enum": [
+        "test"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset",
+        "platform",
+        "video_id",
+        "url"
+      ],
+      "properties": {
+        "dataset": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "video_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{11}$"
+        },
+        "url": {
+          "type": "string"
+        },
+        "video_available_at_release": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "availability_checked_utc": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clip_start_sec",
+        "clip_end_sec",
+        "clip_duration_sec",
+        "temporal_certificate_start_sec",
+        "temporal_certificate_end_sec",
+        "temporal_certificate_duration_sec",
+        "raw_clip_range",
+        "raw_temporal_certificate"
+      ],
+      "properties": {
+        "clip_start_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "clip_end_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "clip_duration_sec": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "temporal_certificate_start_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "temporal_certificate_end_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "temporal_certificate_duration_sec": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "raw_clip_range": {
+          "type": "string"
+        },
+        "raw_temporal_certificate": {
+          "type": "string"
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "type",
+        "choices"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "repetitive_motion",
+            "speed_recognition",
+            "fine_grained_motion",
+            "action_order",
+            "state_at_event",
+            "blink_and_miss",
+            "causality_detection",
+            "synchronization_assessment",
+            "instance_count"
+          ]
+        },
+        "choices": {
+          "type": "object",
+          "minProperties": 4,
+          "propertyNames": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "temporal_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_fps",
+        "min_required_frames_for_certificate",
+        "native_fps"
+      ],
+      "properties": {
+        "min_fps": {
+          "type": "number",
+          "minimum": 4
+        },
+        "min_required_frames_for_certificate": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "native_fps": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "categories": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_category",
+        "visual_domain",
+        "visual_domain_fine",
+        "visual_subdomain",
+        "source_video_category"
+      ],
+      "properties": {
+        "task_category": {
+          "type": "string",
+          "enum": [
+            "repetitive_motion",
+            "speed_recognition",
+            "fine_grained_motion",
+            "action_order",
+            "state_at_event",
+            "blink_and_miss",
+            "causality_detection",
+            "synchronization_assessment",
+            "instance_count"
+          ]
+        },
+        "visual_domain": {
+          "type": "string"
+        },
+        "visual_domain_fine": {
+          "type": "string"
+        },
+        "visual_subdomain": {
+          "type": "string"
+        },
+        "source_video_category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original_row_id",
+        "source_dataset"
+      ],
+      "properties": {
+        "original_row_id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_dataset": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

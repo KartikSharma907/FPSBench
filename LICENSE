@@ -1,0 +1,49 @@
+FPS-Bench License
+=================
+
+This license applies ONLY to the materials authored and distributed in this
+repository: (a) the annotation metadata in `annotations/` and its mirrors, and
+(b) the source code (the `fpsbench/` package, `scripts/`, `examples/`, and
+`tests/`).
+
+It does NOT apply to, and grants no rights in, the underlying source videos
+referenced by the annotations (YouTube / YouTube-8M content). Those remain the
+property of their respective rights holders and are governed by the hosting
+platform's terms and the videos' own licenses. See TERMS_OF_USE.md.
+
+--------------------------------------------------------------------------------
+Code (the fpsbench package, scripts, examples, tests) — MIT License
+--------------------------------------------------------------------------------
+
+Copyright (c) 2026 FPS-Bench authors, Carnegie Mellon University
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+Annotation metadata (the contents of annotations/) — CC BY 4.0
+--------------------------------------------------------------------------------
+
+The annotation metadata is licensed under the Creative Commons
+Attribution 4.0 International License (CC BY 4.0). You are free to share and
+adapt the annotation metadata for any purpose, provided you give appropriate
+credit (cite the CVPR 2026 paper; see CITATION.cff). The full license text is at:
+
+    https://creativecommons.org/licenses/by/4.0/legalcode
+
+This license covers ONLY the annotation metadata, not the referenced source
+videos.
