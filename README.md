@@ -15,6 +15,11 @@ spans **nine task categories** of rapid, high-frequency temporal phenomena.
 > (CVPR 2026), Carnegie Mellon University. Please cite it (see
 > [CITATION.cff](CITATION.cff)) if you use this benchmark.
 
+**Links:** [Project page](https://kartiksharma907.github.io/FPSBench/) ·
+[Dataset (HuggingFace)](https://huggingface.co/datasets/YOUR-HF-USERNAME/fpsbench) ·
+[Leaderboard](https://huggingface.co/spaces/YOUR-HF-USERNAME/fpsbench-leaderboard)
+&nbsp;<sub>(replace `YOUR-HF-USERNAME` with the HuggingFace account hosting the release)</sub>
+
 ## What's in this release
 
 This release contains **annotations and metadata, plus evaluation code** — it
@@ -237,6 +242,24 @@ the no-answer/invalid rate, and per-group counts.
 Prediction file schema (JSONL) for `score_predictions.py`:
 `{"id": "fpsbench_000000", "prediction": "A", "raw_response": "A. ..."}`. If
 `prediction` is absent it is parsed from `raw_response`.
+
+## Leaderboard
+
+FPS-Bench is **held out**: the published annotations carry no answer key, so you
+cannot score locally. To get a number and appear on the leaderboard:
+
+1. Run your model with `scripts/evaluate.py` over all 1000 examples to produce a
+   predictions JSONL (the summary will say scoring was skipped — that's expected).
+2. Upload that file to the leaderboard Space. It scores your predictions
+   server-side against the private answers and adds you to the table.
+
+➡️ **Leaderboard:** https://huggingface.co/spaces/YOUR-HF-USERNAME/fpsbench-leaderboard
+
+The Space uses the same scoring code path as `scripts/score_predictions.py`
+(`score_predictions()`), reporting overall accuracy with a 95% bootstrap CI plus
+per-task / per-domain / per-minFPS breakdowns. The leaderboard source lives in
+[`leaderboard/`](leaderboard/). Maintainers who hold `fpsbench_v1.full.jsonl` can
+reproduce any score offline with `score_predictions.py`.
 
 ## Dataset statistics
 
