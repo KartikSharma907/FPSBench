@@ -35,13 +35,13 @@ minFPS ≥ 4), across **nine task categories** of rapid temporal phenomena.
 
 - 📄 Project page: https://kartiksharma907.github.io/FPSBench/
 - 💻 Code & evaluation harness: https://github.com/KartikSharma907/FPSBench
-- 🏆 Leaderboard (held-out scoring): https://huggingface.co/spaces/YOUR-HF-USERNAME/fpsbench-leaderboard
+- 🏆 Leaderboard (held-out scoring): https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard
 
 ## ⚠️ Held-out answers
 
 This dataset is **questions-only**: it does **not** contain the answer key. To get
 a score, run your model to produce predictions and submit them to the
-[leaderboard](https://huggingface.co/spaces/YOUR-HF-USERNAME/fpsbench-leaderboard),
+[leaderboard](https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard),
 which scores server-side against the private answers. See the
 [code repo](https://github.com/KartikSharma907/FPSBench) for the evaluation harness.
 
@@ -73,7 +73,7 @@ The full JSON Schema is in `fpsbench_v1.schema.json`; aggregate statistics are i
 
 ```python
 from datasets import load_dataset
-ds = load_dataset("YOUR-HF-USERNAME/fpsbench", split="test")
+ds = load_dataset("Kartiksh/fpsbench", split="test")
 print(ds[0]["question"]["text"])
 ```
 

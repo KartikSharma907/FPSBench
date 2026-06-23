@@ -16,9 +16,8 @@ spans **nine task categories** of rapid, high-frequency temporal phenomena.
 > [CITATION.cff](CITATION.cff)) if you use this benchmark.
 
 **Links:** [Project page](https://kartiksharma907.github.io/FPSBench/) ·
-[Dataset (HuggingFace)](https://huggingface.co/datasets/YOUR-HF-USERNAME/fpsbench) ·
-[Leaderboard](https://huggingface.co/spaces/YOUR-HF-USERNAME/fpsbench-leaderboard)
-&nbsp;<sub>(replace `YOUR-HF-USERNAME` with the HuggingFace account hosting the release)</sub>
+[Dataset (HuggingFace)](https://huggingface.co/datasets/Kartiksh/fpsbench) ·
+[Leaderboard](https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard)
 
 ## What's in this release
 
@@ -141,6 +140,11 @@ flattened view generated from the same records. Validate against
 }
 ```
 
+The example above shows the **full** canonical record. The **published**
+`fpsbench_v1.jsonl` is questions-only: `question.answer` and `question.answer_text`
+are omitted (held out for the leaderboard). The fields are documented here because
+they define the format and appear in the maintainer `fpsbench_v1.full.jsonl`.
+
 Field notes:
 
 - **`id`** — stable public ID `fpsbench_NNNNNN`; `metadata.original_row_id`
@@ -253,7 +257,7 @@ cannot score locally. To get a number and appear on the leaderboard:
 2. Upload that file to the leaderboard Space. It scores your predictions
    server-side against the private answers and adds you to the table.
 
-➡️ **Leaderboard:** https://huggingface.co/spaces/YOUR-HF-USERNAME/fpsbench-leaderboard
+➡️ **Leaderboard:** https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard
 
 The Space uses the same scoring code path as `scripts/score_predictions.py`
 (`score_predictions()`), reporting overall accuracy with a 95% bootstrap CI plus
