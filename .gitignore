@@ -25,6 +25,9 @@ frames/
 *.hf_token
 *.pem
 
+# Leaderboard runtime store (persisted to the HF results dataset in production)
+leaderboard/results.jsonl
+
 # Python
 __pycache__/
 *.pyc
