@@ -314,6 +314,17 @@ This writes the published questions-only `fpsbench_v1.jsonl`, `fpsbench_v1.csv`,
 answer key (these are `.gitignore`'d and must never be published). It prints the
 noncritical notes above.
 
+**Publishing to HuggingFace.** After regenerating, a maintainer can push the
+public dataset, the private answer key, and the results store with
+[`scripts/push_to_hf.py`](scripts/push_to_hf.py) (dry-run by default; guards
+against pushing a file that still contains answers):
+
+```bash
+huggingface-cli login
+python scripts/push_to_hf.py --hf-user YOUR_HF_USERNAME            # preview
+python scripts/push_to_hf.py --hf-user YOUR_HF_USERNAME --execute  # publish
+```
+
 ## Terms of use
 
 These terms are in addition to the [LICENSE](LICENSE) (which covers only the
