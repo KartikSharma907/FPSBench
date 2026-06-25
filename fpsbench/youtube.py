@@ -1,7 +1,6 @@
-"""YouTube URL / video-ID utilities.
+"""YouTube URL / video-ID helpers.
 
-Clean, tested re-implementation of the ID extraction logic originally embedded
-in ``streamlit_quiz.py``. Kept dependency-free so it can be imported anywhere.
+Small, tested, and dependency-free so it can be imported anywhere.
 """
 
 from __future__ import annotations

@@ -1,8 +1,8 @@
 """Reading and writing FPS-Bench artifacts (JSONL, CSV).
 
-The canonical format is JSONL (one nested record per line). The CSV mirror is a
-*flattened* view of the same records, generated from the canonical data so it
-never drifts. ``flatten_record`` produces the single-level row used for CSV.
+JSONL is the canonical format — one nested record per line. The CSV is a
+flattened mirror generated from the same records (via ``flatten_record``), so it
+can't drift out of sync.
 """
 
 from __future__ import annotations

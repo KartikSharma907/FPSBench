@@ -1,19 +1,18 @@
-"""Robust timestamp parsing for FPS-Bench annotations.
+"""Timestamp parsing for FPS-Bench annotations.
 
-The raw spreadsheet stores time intervals as human-typed strings such as
-``"1:40 - 1:46"`` or ``"0:08-0:12"``. This module turns those into floating
-point seconds while being strict enough to *flag* (never silently drop)
-malformed values.
+The source spreadsheet stores time intervals as hand-typed strings like
+``"1:40 - 1:46"`` or ``"0:08-0:12"``. This module turns those into seconds, and
+flags anything malformed rather than silently dropping it.
 
-Design goals:
+What it does:
 
-* Accept ``M:SS``, ``MM:SS`` and ``H:MM:SS`` single timestamps.
-* Accept ranges joined by ``-`` or `` - `` (and a few unicode dash variants).
-* Return seconds as floats and always preserve the raw input string.
-* Repair a small, well understood set of known typos *deterministically* and
-  record that a repair happened, rather than guessing.
-* Raise :class:`TimestampError` for anything ambiguous so callers can flag the
-  row for review (or exclude it).
+* Accepts ``M:SS``, ``MM:SS`` and ``H:MM:SS`` single timestamps.
+* Accepts ranges joined by ``-`` or `` - `` (and a few unicode dash variants).
+* Returns seconds as floats and always keeps the raw input string.
+* Fixes a small, well-understood set of known typos deterministically, and notes
+  when it did so instead of guessing.
+* Raises :class:`TimestampError` on anything ambiguous, so the caller can flag
+  the row for review or drop it.
 """
 
 from __future__ import annotations

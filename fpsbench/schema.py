@@ -1,15 +1,14 @@
-"""Canonical FPS-Bench annotation schema and record validation.
+"""The FPS-Bench annotation schema and record validation.
 
-This module is the single source of truth for the shape of one JSONL record. It
-provides:
+This module defines the shape of one JSONL record. It provides:
 
 * :func:`build_json_schema` -- a JSON Schema (draft 2020-12) document, written to
-  ``annotations/fpsbench_v1.schema.json`` so downstream users can validate their
-  copy with any standard validator.
+  ``annotations/fpsbench_v1.schema.json`` so you can validate your copy with any
+  standard validator.
 * :func:`validate_record` -- a dependency-free validator that returns a list of
-  human-readable error strings (empty == valid). This is used by the ingestion
-  and validation scripts and mirrors the JSON Schema, but adds the cross-field
-  checks (e.g. clip contains certificate) that plain JSON Schema cannot express.
+  error strings (empty means valid). The ingestion and validation scripts use it.
+  It mirrors the JSON Schema but adds the cross-field checks (e.g. the clip
+  contains the certificate) that plain JSON Schema can't express.
 """
 
 from __future__ import annotations

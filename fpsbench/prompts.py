@@ -1,9 +1,8 @@
 """Prompt construction for model evaluation.
 
-The prompting protocol deliberately exposes only the question text, the answer
-choices, and (optionally) media. It never leaks the correct answer, answer_text,
-min_fps, or the temporal certificate, unless a diagnostic flag explicitly asks
-for them.
+The model only ever sees the question text, the answer choices, and (optionally)
+media. It never sees the correct answer, answer_text, min_fps, or the temporal
+certificate unless a diagnostic flag explicitly asks for them.
 """
 
 from __future__ import annotations

@@ -1,21 +1,19 @@
 """FPS-Bench: a benchmark for high-frame-rate video understanding.
 
-This package contains the reusable library code behind the public release of
-FPS-Bench. It is intentionally lightweight: the core import (``import fpsbench``)
-pulls in only the Python standard library. Heavy/optional dependencies (pandas,
-yt-dlp, ffmpeg, opencv, model backends) are declared as extras in
-``pyproject.toml`` and imported lazily inside the modules and scripts that need
-them.
+The library code behind the public release. ``import fpsbench`` needs only the
+standard library; the heavier optional dependencies (pandas, yt-dlp, ffmpeg,
+opencv, model backends) are declared as extras in ``pyproject.toml`` and imported
+lazily where they're actually used.
 """
 
 __version__ = "1.0.0"
 
-# Canonical dataset version shipped with this release. This is distinct from the
-# package ``__version__`` above, though they happen to match for v1.0.0.
+# Version of the dataset itself, separate from the package version above (they
+# happen to match at 1.0.0).
 DATASET_VERSION = "1.0.0"
 
-# The nine task categories, normalized to lowercase snake_case. This is the
-# single source of truth used by the schema, ingestion, and validation.
+# The nine task categories in lowercase snake_case. The schema, ingestion, and
+# validation all read them from here.
 TASK_CATEGORIES = (
     "repetitive_motion",
     "speed_recognition",

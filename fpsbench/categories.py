@@ -1,19 +1,16 @@
 """Visual-domain taxonomy for FPS-Bench.
 
-This module owns the two-level visual taxonomy that maps a raw YouTube-8M
-``video category`` (e.g. ``"Basketball"``) onto:
+The two-level taxonomy maps a raw YouTube-8M ``video category`` (e.g.
+``"Basketball"``) onto:
 
 * ``visual_domain_fine`` -- the fine-grained meta domain (e.g. ``"Sports & Fitness"``)
-* ``visual_subdomain``    -- the second-level subdomain (e.g. ``"Team Sports"``)
+* ``visual_subdomain``   -- the second-level subdomain (e.g. ``"Team Sports"``)
 
-``CATEGORY_MAP`` is lifted verbatim from the project's ``add_categories_v2.py``
-so the release stays consistent with how the data was originally organized, with
-one owner-approved addition: lowercase ``"winter sports"`` (the only raw value in
-the current spreadsheet that was previously unmapped).
+``CATEGORY_MAP`` matches how the dataset was originally organized.
 
-A separate paper-compatible five-way ``visual_domain`` is derived from
-``visual_domain_fine`` so users can reproduce the domains shown in the paper's
-sunburst figure while still having access to the finer taxonomy.
+The paper's five-way ``visual_domain`` is derived from ``visual_domain_fine``, so
+you can reproduce the domains in the paper's sunburst figure and still get at the
+finer taxonomy.
 """
 
 from __future__ import annotations

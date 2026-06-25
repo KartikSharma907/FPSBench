@@ -1,15 +1,13 @@
 # FPS-Bench
 
-**FPS-Bench is a benchmark for high-frame-rate video understanding.** It is a
-multiple-choice video question-answering (VideoQA) benchmark designed to evaluate
-fine-grained temporal perception and reasoning in video-language models — the
-kinds of questions that *cannot* be answered from a handful of sparsely sampled
-frames.
+FPS-Bench is a benchmark for high-frame-rate video understanding. It's a
+multiple-choice VideoQA benchmark aimed at the kind of question you can't answer
+from a few sparsely sampled frames — ones that hinge on fast, fine-grained
+motion.
 
-FPS-Bench introduces **minFPS** (minimum necessary frame rate): the lowest frame
-rate at which a human annotator can consistently verify the correct answer.
-Every question is curated to require a minFPS of at least 4, and the benchmark
-spans **nine task categories** of rapid, high-frequency temporal phenomena.
+The benchmark is built around **minFPS**: the lowest frame rate at which a human
+can reliably answer a question. Every example requires a minFPS of at least 4,
+and the 1,000 questions span nine categories of rapid temporal events.
 
 > Paper: *FPS-Bench: A Benchmark for High Frame-Rate Video Understanding*
 > (CVPR 2026), Carnegie Mellon University. Please cite it (see
@@ -21,21 +19,20 @@ spans **nine task categories** of rapid, high-frequency temporal phenomena.
 
 ## What's in this release
 
-This release contains **annotations and metadata, plus evaluation code** — it
-does **not** contain any videos.
+Annotations, metadata, and evaluation code. No videos.
 
-* **1,000 multiple-choice QA examples.** For each: a stable public ID, the
-  YouTube video ID and URL, the clip and temporal-certificate time intervals, the
+* **1,000 multiple-choice QA examples.** Each one has a stable ID, the YouTube
+  video ID and URL, the clip and temporal-certificate time intervals, the
   question, four answer choices plus "None of the above", the correct answer, the
-  **minFPS** label, the **nine-way task category**, and **visual-domain** labels.
-* Canonical annotations in **JSONL**, a flattened **CSV** mirror, and a
-  **JSON Schema** so you can validate your copy.
-* A reusable Python package (`fpsbench/`) and CLI scripts for preparing media
-  (user-side, opt-in), running evaluations, and scoring predictions.
+  minFPS label, the task category, and visual-domain labels.
+* The annotations as JSONL, with a flattened CSV mirror and a JSON Schema you can
+  validate against.
+* A small Python package (`fpsbench/`) and CLI scripts for preparing media,
+  running evaluations, and scoring predictions.
 
-**The release does NOT include** any videos, clips, extracted frames, thumbnails,
-or cached media. You access the source videos yourself, under YouTube's Terms of
-Service, the source licenses, copyright law, and your institution's policy (see
+You bring the videos. The release ships no clips, frames, thumbnails, or cached
+media; you access the source videos yourself under YouTube's Terms of Service,
+the source licenses, copyright law, and your institution's policy (see
 [Terms of use](#terms-of-use)).
 
 ## Repository layout
@@ -51,13 +48,13 @@ tests/         pytest unit tests
 
 ## Install
 
-The core library and evaluation/scoring path are **pure standard library** — no
-required dependencies:
+The core library and the evaluate/score path use only the standard library, so
+the base install pulls in no dependencies:
 
 ```bash
-pip install -e .                 # installs the fpsbench-* console scripts
-pip install -e ".[download]"     # + yt-dlp & opencv for user-side clip/frame prep
-pip install -e ".[ingest]"       # + pandas & openpyxl to regenerate from the .xlsx
+pip install -e .                 # the fpsbench-* console scripts
+pip install -e ".[download]"     # + yt-dlp & opencv to fetch clips / extract frames
+pip install -e ".[ingest]"       # + pandas & openpyxl to rebuild from the source .xlsx
 pip install -e ".[dev]"          # + pytest
 ```
 
@@ -167,10 +164,10 @@ rejects any record that carries them. (Certificate-contained-within-clip is a
 
 ## Preparing media (your responsibility, opt-in)
 
-`scripts/prepare_dataset.py` is **safe and metadata-only by default**: the default
-`--mode manifest` never touches the network. Prepared/derived media goes to a
-cache directory (`--cache-dir` > `$FPSBENCH_CACHE` > `~/.cache/fpsbench`), never
-under `annotations/` and never committed.
+`scripts/prepare_dataset.py` is metadata-only by default — the default
+`--mode manifest` never touches the network. Anything it downloads or derives
+lands in a cache directory (`--cache-dir`, else `$FPSBENCH_CACHE`, else
+`~/.cache/fpsbench`), never under `annotations/` and never committed.
 
 | mode | network | what it does |
 |------|---------|--------------|
@@ -189,13 +186,13 @@ refuses and exits otherwise), and supports `--window {clip,temporal_certificate}
 `--max-height`, `--limit`, `--resume`. All download/local/extract modes write
 `manifest.jsonl` (+ `failed.jsonl`, `prepare_summary.json`).
 
-**Clip caching.** Each prepared clip is cached at
-`<cache>/clips/<window>/<id>_<start>-<end>.<ext>` — the filename encodes the exact
-time window, so the *same source video requested for a different timestamp never
-reuses a clip of the wrong segment*. Downloads are fetched to a temporary file and
-trimmed to exactly the window, so `--padding-sec` only affects keyframe slack, not
-the final clip. `--resume` only skips a clip when a non-empty file for that exact
-window already exists.
+**Clip caching.** Each clip is cached at
+`<cache>/clips/<window>/<id>_<start>-<end>.<ext>`. The filename encodes the exact
+time window, so requesting the same source video at a different timestamp can't
+reuse a clip of the wrong segment. Downloads go to a temporary file and are
+trimmed to exactly the window, so `--padding-sec` only buys keyframe slack and
+doesn't change the final clip. With `--resume`, a clip is skipped only when a
+non-empty file for that exact window already exists.
 
 ## Evaluation
 
@@ -275,6 +272,27 @@ action_order 110, state_at_event 110, causality_detection 110, blink_and_miss 10
 Media & Entertainment 178, Miscellaneous 168, Vehicles 89.
 
 Full machine-readable stats: [annotations/fpsbench_v1_stats.json](annotations/fpsbench_v1_stats.json).
+
+## Data quality
+
+A few things worth knowing about the released data. None of these are critical
+errors; the affected rows are kept and flagged.
+
+- **Certificate just outside the clip (5 rows).** For a handful of examples the
+  temporal certificate isn't fully contained in the clip window. The timestamps
+  parse fine — only the containment check fails — so validation reports it as a
+  warning rather than dropping the row.
+- **Two repaired timestamps.** Two clearly-typo'd time strings were fixed
+  deterministically during ingestion (e.g. a stray `.` where a `:` was meant),
+  and the repair is recorded rather than guessed at.
+- **One missing source category** fell back to *Other / Miscellaneous*.
+- **Unique-video count.** The paper reports 554 source videos; this release has
+  592 unique YouTube IDs (`unique_video_count_matches_paper: false` in the stats
+  file). It's surfaced here rather than quietly reconciled.
+
+Source videos also come and go over time, so exact reproduction isn't guaranteed
+if a video is removed (`prepare_dataset.py --mode check` records an availability
+snapshot).
 
 ## Terms of use
 

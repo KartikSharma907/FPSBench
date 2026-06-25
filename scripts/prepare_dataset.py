@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Prepare a user's local evaluation environment from the public annotations.
+"""Set up a local evaluation environment from the public annotations.
 
-Default behavior is SAFE and METADATA-ONLY: it never downloads audiovisual
-content. Downloading clips requires the explicit ``--accept-source-terms`` flag
-and prints a conspicuous warning. Users who already have lawful local copies
-should prefer ``--mode local``.
+By default this is metadata-only and never downloads audiovisual content.
+Downloading clips needs the explicit ``--accept-source-terms`` flag and prints a
+loud warning first. If you already have lawful local copies, use ``--mode local``.
 
 Modes:
     manifest        (default) write a local manifest; no network.
