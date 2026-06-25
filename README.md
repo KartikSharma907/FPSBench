@@ -281,54 +281,6 @@ Media & Entertainment 178, Miscellaneous 168, Vehicles 89.
 
 Full machine-readable stats: [annotations/fpsbench_v1_stats.json](annotations/fpsbench_v1_stats.json).
 
-## Data quality
-
-All 1,000 source rows pass validation with **no critical issues**. A few
-noncritical, owner-reviewed notes are kept in the release (printed by
-`ingest_release.py`):
-
-- **Timestamps repaired deterministically** (2): `0:49-0.53`→`0:49-0:53` and
-  `0:19:0:21`→`0:19-0:21` (unambiguous separator typos).
-- **Certificate slightly outside the clip** (5): timestamps parse fine; only the
-  containment invariant is violated, so it is a validation *warning*.
-- **Missing source video category** (1): the source sheet had no category for one
-  row; mapped to fallback *Other / Miscellaneous*.
-- **Unique-video-count note:** the paper reports 554 videos; this set has **592**
-  unique YouTube IDs (`unique_video_count_matches_paper: false` in the stats file).
-  Surfaced for reconciliation rather than silently changed.
-
-Source-video availability also drifts over time; results may not be exactly
-reproducible if videos are removed (`prepare_dataset.py --mode check` records an
-availability snapshot).
-
-## Regenerating the release
-
-Requires the source spreadsheet and the `ingest` extra (`pip install -e ".[ingest]"`):
-
-```bash
-python scripts/ingest_release.py \
-  --input-xlsx "FPS-Bench Public Release.xlsx" \
-  --paper-pdf "CVPR2026_FPSBench.pdf" \
-  --output-dir annotations --version 1.0.0
-```
-
-This writes the published questions-only `fpsbench_v1.jsonl`, `fpsbench_v1.csv`,
-`fpsbench_v1.schema.json`, and `fpsbench_v1_stats.json`, plus the maintainer-only
-`fpsbench_v1.full.jsonl` / `.full.csv` / `fpsbench_v1.answers.jsonl` that carry the
-answer key (these are `.gitignore`'d and must never be published). It prints the
-noncritical notes above.
-
-**Publishing to HuggingFace.** After regenerating, a maintainer can push the
-public dataset, the private answer key, and the results store with
-[`scripts/push_to_hf.py`](scripts/push_to_hf.py) (dry-run by default; guards
-against pushing a file that still contains answers):
-
-```bash
-huggingface-cli login
-python scripts/push_to_hf.py --hf-user YOUR_HF_USERNAME            # preview
-python scripts/push_to_hf.py --hf-user YOUR_HF_USERNAME --execute  # publish
-```
-
 ## Terms of use
 
 These terms are in addition to the [LICENSE](LICENSE) (which covers only the
