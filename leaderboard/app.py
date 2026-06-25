@@ -270,4 +270,6 @@ def build_demo():
 
 
 if __name__ == "__main__":
-    build_demo().launch()
+    # On HF Spaces bind to the container interface; show_api=False avoids the
+    # gradio_client API-schema generation that can choke on boolean JSON schemas.
+    build_demo().launch(server_name="0.0.0.0", server_port=7860, show_api=False)

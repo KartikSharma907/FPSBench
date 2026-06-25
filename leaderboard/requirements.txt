@@ -1,6 +1,8 @@
 # FPS-Bench leaderboard Space dependencies.
-gradio>=4.0
-huggingface_hub>=0.23
+gradio>=5.0
+# Keep huggingface_hub on the 0.x line (matches the known-good local stack and
+# avoids the 1.x removals that older gradio code paths still reference).
+huggingface_hub>=0.28,<1.0
 # The scoring code path (fpsbench package + scripts) is installed from the repo.
 # Pin to a tag/commit for reproducibility once the repo is public.
 fpsbench @ git+https://github.com/KartikSharma907/FPSBench.git@main
