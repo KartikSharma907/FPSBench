@@ -41,7 +41,7 @@ Service, the source licenses, copyright law, and your institution's policy (see
 ## Repository layout
 
 ```
-annotations/   fpsbench_v1.jsonl (canonical, questions-only) + .csv mirror + .schema.json + _stats.json
+annotations/   fpsbench_v1.jsonl (canonical) + .csv mirror + .schema.json + _stats.json
 fpsbench/      reusable library: schema, io, timestamps, categories, youtube, media,
                prompts, parsing, metrics, and adapters/ (base + random baseline)
 scripts/       ingest / validate / prepare / evaluate / score CLIs
@@ -80,10 +80,9 @@ python scripts/evaluate.py \
   --output results/random_predictions.jsonl \
   --summary results/random_summary.json
 
-# Score predictions (held-out: submit to the leaderboard, or score locally only
-# if you have the maintainer answer key fpsbench_v1.full.jsonl)
+# Score a precomputed predictions file (no model run)
 python scripts/score_predictions.py \
-  --annotations annotations/fpsbench_v1.full.jsonl \
+  --annotations annotations/fpsbench_v1.jsonl \
   --predictions examples/predictions_template.jsonl \
   --summary results/template_summary.json
 ```
@@ -91,12 +90,10 @@ python scripts/score_predictions.py \
 `examples/run_random_baseline.sh` and `examples/run_score_only.sh` wrap the last
 two commands.
 
-> **Held-out answers.** The published `fpsbench_v1.jsonl` is **questions-only** —
-> it carries no answer key, so the benchmark cannot be gamed by looking up
-> answers. To get a score, run your model to produce a predictions file and
-> submit it to the [leaderboard](#leaderboard), which scores server-side against
-> the held-out answers. (Maintainers can regenerate `fpsbench_v1.full.jsonl`
-> locally from the source spreadsheet to score offline.)
+> **Answers are included.** The published `fpsbench_v1.jsonl` carries the answer
+> key (`question.answer` / `answer_text`), so you can score and do error analysis
+> locally. You can also submit your predictions to the
+> [leaderboard](#leaderboard) to appear on the public table.
 
 ## Annotation schema
 
@@ -140,10 +137,8 @@ flattened view generated from the same records. Validate against
 }
 ```
 
-The example above shows the **full** canonical record. The **published**
-`fpsbench_v1.jsonl` is questions-only: `question.answer` and `question.answer_text`
-are omitted (held out for the leaderboard). The fields are documented here because
-they define the format and appear in the maintainer `fpsbench_v1.full.jsonl`.
+The published `fpsbench_v1.jsonl` includes every field shown above, including
+`question.answer` and `question.answer_text`.
 
 Field notes:
 
@@ -249,21 +244,21 @@ Prediction file schema (JSONL) for `score_predictions.py`:
 
 ## Leaderboard
 
-FPS-Bench is **held out**: the published annotations carry no answer key, so you
-cannot score locally. To get a number and appear on the leaderboard:
+The answer key is included, so you score locally with `score_predictions.py`. To
+also appear on the public leaderboard:
 
 1. Run your model with `scripts/evaluate.py` over all 1000 examples to produce a
-   predictions JSONL (the summary will say scoring was skipped — that's expected).
-2. Upload that file to the leaderboard Space. It scores your predictions
-   server-side against the private answers and adds you to the table.
+   predictions JSONL.
+2. Upload that file to the leaderboard Space, which computes your metrics and adds
+   you to the table.
 
 ➡️ **Leaderboard:** https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard
 
 The Space uses the same scoring code path as `scripts/score_predictions.py`
 (`score_predictions()`), reporting overall accuracy with a 95% bootstrap CI plus
 per-task / per-domain / per-minFPS breakdowns. The leaderboard source lives in
-[`leaderboard/`](leaderboard/). Maintainers who hold `fpsbench_v1.full.jsonl` can
-reproduce any score offline with `score_predictions.py`.
+[`leaderboard/`](leaderboard/). Because the answers are public, leaderboard
+numbers are self-reported.
 
 ## Dataset statistics
 

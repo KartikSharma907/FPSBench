@@ -119,7 +119,9 @@
       "required": [
         "text",
         "type",
-        "choices"
+        "choices",
+        "answer",
+        "answer_text"
       ],
       "properties": {
         "text": {
@@ -155,6 +157,20 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "answer": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        },
+        "answer_text": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },

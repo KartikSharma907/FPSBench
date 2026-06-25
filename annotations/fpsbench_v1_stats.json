@@ -81,8 +81,8 @@
     "median": 4.0
   },
   "availability_checked_utc": null,
-  "sha256_jsonl": "0a745c929925f45992e8401f2bd24c5781e9d9593e0900fbfa7c347bdc4e1ca8",
-  "generated_utc": "2026-06-23T10:10:01.402943+00:00",
+  "sha256_jsonl": "22bfac769158688dbb9b32e3286a0547441a11916c7019e012a780fbcd307854",
+  "generated_utc": "2026-06-25T11:37:13.797434+00:00",
   "source_inputs": {
     "input_xlsx": "FPS-Bench Public Release.xlsx",
     "paper_pdf": "CVPR2026_FPSBench.pdf"

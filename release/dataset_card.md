@@ -35,15 +35,16 @@ minFPS ≥ 4), across **nine task categories** of rapid temporal phenomena.
 
 - 📄 Project page: https://kartiksharma907.github.io/FPSBench/
 - 💻 Code & evaluation harness: https://github.com/KartikSharma907/FPSBench
-- 🏆 Leaderboard (held-out scoring): https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard
+- 🏆 Leaderboard: https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard
 
-## ⚠️ Held-out answers
+## Scoring
 
-This dataset is **questions-only**: it does **not** contain the answer key. To get
-a score, run your model to produce predictions and submit them to the
-[leaderboard](https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard),
-which scores server-side against the private answers. See the
-[code repo](https://github.com/KartikSharma907/FPSBench) for the evaluation harness.
+This dataset **includes the answer key** (`question.answer` / `answer_text`), so
+you can score and do error analysis locally with the evaluation harness in the
+[code repo](https://github.com/KartikSharma907/FPSBench)
+(`scripts/score_predictions.py`). You can also submit your predictions to the
+[leaderboard](https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard) to
+appear on the public table.
 
 ## No videos are redistributed
 
@@ -61,7 +62,7 @@ Each line of `fpsbench_v1.jsonl` is one example (`split: test`). Nested fields:
 - `id`, `version`, `split`
 - `source`: `{dataset, platform, video_id, url}`
 - `time`: `clip_*` and `temporal_certificate_*` start/end/duration seconds (+ raw strings)
-- `question`: `{text, type, choices{A..E}}` — **no `answer`** (held out)
+- `question`: `{text, type, choices{A..E}, answer, answer_text}`
 - `temporal_requirements`: `{min_fps, min_required_frames_for_certificate, native_fps}`
 - `categories`: `{task_category, visual_domain, visual_domain_fine, visual_subdomain, source_video_category}`
 - `metadata`: `{original_row_id, source_dataset}`

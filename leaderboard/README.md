@@ -13,28 +13,26 @@ license: cc-by-sa-4.0
 
 # FPS-Bench Leaderboard
 
-A held-out-answer leaderboard for [FPS-Bench](https://github.com/KartikSharma907/FPSBench),
+The leaderboard for [FPS-Bench](https://github.com/KartikSharma907/FPSBench),
 a benchmark for high-frame-rate video understanding.
 
-The public dataset is **questions-only**. To get a score, run your model with
-`scripts/evaluate.py` to produce a predictions JSONL, then upload it here — the
-Space scores it server-side against the private answer key and appends the result
-to the leaderboard.
+The answer key ships with the public dataset, so you can score locally too; this
+Space is a convenience scorer that also persists a public table. Run your model
+with `scripts/evaluate.py` to produce a predictions JSONL, then upload it here.
 
 ## Deploying this Space
 
 This directory is versioned in the main repo under `leaderboard/`. To deploy:
 
-1. Create a **private** dataset `…/fpsbench-answers` containing
-   `fpsbench_v1.full.jsonl` (the maintainer file with answers), and a dataset
-   `…/fpsbench-leaderboard-results` for persisted submissions.
+1. Ensure the public dataset `…/fpsbench` (with `fpsbench_v1.jsonl`) is published,
+   and create a dataset `…/fpsbench-leaderboard-results` for persisted submissions.
 2. Create a Gradio Space and push the contents of this `leaderboard/` folder.
 3. Set these Space **Secrets / Variables**:
-   - `HF_TOKEN` — read access to the answers repo, write access to the results repo.
-   - `FPSBENCH_ANSWERS_REPO` — e.g. `your-user/fpsbench-answers`.
+   - `HF_TOKEN` — write access to the results repo.
+   - `FPSBENCH_ANSWERS_REPO` — the public dataset, e.g. `your-user/fpsbench`.
    - `FPSBENCH_RESULTS_REPO` — e.g. `your-user/fpsbench-leaderboard-results`.
 
-Without these, the app falls back to a local `annotations/fpsbench_v1.full.jsonl`
+Without these, the app falls back to a local `annotations/fpsbench_v1.jsonl`
 and a local `results.jsonl` for development.
 
 ## Submission format

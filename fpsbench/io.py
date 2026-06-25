@@ -25,9 +25,8 @@ __all__ = [
 def to_public_record(rec: Dict[str, Any]) -> Dict[str, Any]:
     """Return a copy of a canonical record with the answer key removed.
 
-    Drops ``question.answer`` and ``question.answer_text`` so the record can be
-    published in the public (questions-only) release while the answers stay
-    private for the held-out leaderboard. All other fields are preserved.
+    Drops ``question.answer`` and ``question.answer_text``. Utility for producing
+    a questions-only copy of a record; all other fields are preserved.
     """
     import copy
 
@@ -40,7 +39,7 @@ def to_public_record(rec: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def to_answer_record(rec: Dict[str, Any]) -> Dict[str, Any]:
-    """Return just the held-out answer key for one record: id + answer(+text)."""
+    """Return just the answer key for one record: id + answer(+text)."""
     q = rec.get("question", {})
     return {
         "id": rec["id"],
@@ -126,8 +125,7 @@ _FLAT_FIELDS = [
 ]
 
 
-# Columns that reveal the answer key. Dropped from the public CSV mirror so the
-# held-out leaderboard stays cheat-resistant.
+# Answer-key columns, dropped when writing a questions-only CSV (public=True).
 _ANSWER_FIELDS = ("answer", "answer_text")
 
 
@@ -189,8 +187,7 @@ def flatten_record(rec: Dict[str, Any]) -> Dict[str, Any]:
 def write_csv(path, records: Iterable[Dict[str, Any]], public: bool = False) -> int:
     """Write flattened records to CSV. Returns number of rows written.
 
-    With ``public=True`` the answer columns are omitted so the file can ship in
-    the public (questions-only) release.
+    With ``public=True`` the answer columns are omitted (questions-only export).
     """
     import csv
 

@@ -31,9 +31,9 @@ _NONE_OF_ABOVE = "None of the above"
 def build_json_schema(public: bool = False) -> Dict[str, Any]:
     """Return the JSON Schema (draft 2020-12) for one FPS-Bench record.
 
-    With ``public=True`` the question's ``answer`` / ``answer_text`` are made
-    optional (and omitted from ``required``), describing the questions-only
-    records shipped in the public release.
+    The default (``public=False``) matches the published records, which include
+    the answer key. With ``public=True`` the question's ``answer`` /
+    ``answer_text`` are dropped (for an optional questions-only export).
     """
     question_required = ["text", "type", "choices"]
     question_props = {

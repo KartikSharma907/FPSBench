@@ -2,13 +2,6 @@
 # FPS-Bench .gitignore
 # ---------------------------------------------------------------------------
 
-# Held-out answer key: maintainer-only artifacts that carry answers. The public
-# release is questions-only; these must NEVER be committed.
-annotations/fpsbench_v1.full.jsonl
-annotations/fpsbench_v1.full.csv
-annotations/fpsbench_v1.answers.jsonl
-*.answers.jsonl
-
 # Prepared / derived media and results are user-side artifacts; never commit.
 data/
 cache/

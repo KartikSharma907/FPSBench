@@ -6,14 +6,9 @@ the JSON Schema and a stats report. Rows with *critical* issues are excluded
 from the released set (and reported); rows with *noncritical* issues are kept
 and flagged (see the README "Data quality" section).
 
-The leaderboard is held-out, so the *published* data file carries no answer key:
-
-* Published (questions-only) -- ``fpsbench_v1.jsonl`` / ``.csv`` /
-  ``.schema.json``. ``question.answer`` and ``answer_text`` are stripped. This is
-  the canonical file users download and run inference against.
-* Maintainer-only (never committed; ``.gitignore``'d) -- ``fpsbench_v1.full.jsonl``
-  / ``.full.csv`` keep the answer key, and ``fpsbench_v1.answers.jsonl`` maps
-  ``id -> answer``. These back the leaderboard's server-side scoring.
+The answer key is published, so the canonical ``fpsbench_v1.jsonl`` / ``.csv`` /
+``.schema.json`` include ``question.answer`` and ``answer_text``. Users score
+locally with ``scripts/score_predictions.py``.
 
 Usage:
     python scripts/ingest_release.py \
@@ -369,23 +364,14 @@ def main():
     records.sort(key=lambda r: r["metadata"]["original_row_id"])
 
     # --- write artifacts ---
-    # Published, questions-only canonical file (answer key stripped). The stats
-    # hash below is taken over this file, since it is what users download.
-    public_records = [fio.to_public_record(r) for r in records]
+    # Canonical file includes the answer key (answers are published).
     jsonl_path = out / "fpsbench_v1.jsonl"
-    fio.write_jsonl(jsonl_path, public_records)
-    fio.write_csv(out / "fpsbench_v1.csv", public_records, public=True)
+    fio.write_jsonl(jsonl_path, records)
+    fio.write_csv(out / "fpsbench_v1.csv", records)
     (out / "fpsbench_v1.schema.json").write_text(
-        json.dumps(fschema.build_json_schema(public=True), indent=2, ensure_ascii=False),
+        json.dumps(fschema.build_json_schema(), indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
-
-    # Maintainer-only artifacts that carry the answer key. These are .gitignore'd
-    # and never published; they back the held-out leaderboard's scoring.
-    fio.write_jsonl(out / "fpsbench_v1.full.jsonl", records)
-    fio.write_csv(out / "fpsbench_v1.full.csv", records)
-    answer_records = [fio.to_answer_record(r) for r in records]
-    fio.write_jsonl(out / "fpsbench_v1.answers.jsonl", answer_records)
 
     inputs = {"input_xlsx": Path(args.input_xlsx).name}
     if args.paper_pdf:
@@ -420,14 +406,9 @@ def main():
     for k, v in stats["visual_domain_counts"].items():
         print(f"  {k:30} {v}")
     print(f"\nArtifacts written to: {out}/")
-    print("  published (questions-only):")
     for name in ("fpsbench_v1.jsonl", "fpsbench_v1.csv",
                  "fpsbench_v1.schema.json", "fpsbench_v1_stats.json"):
-        print(f"    - {name}")
-    print("  maintainer-only (.gitignore'd, carries answers -- DO NOT publish):")
-    for name in ("fpsbench_v1.full.jsonl", "fpsbench_v1.full.csv",
-                 "fpsbench_v1.answers.jsonl"):
-        print(f"    - {name}")
+        print(f"  - {name}")
 
     noncritical = [i for i in all_issues if i.severity == "noncritical"]
     if noncritical:

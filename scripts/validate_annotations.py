@@ -59,8 +59,8 @@ def main():
         video_ids.add(vid)
         urls.add(rec.get("source", {}).get("url"))
 
-        # Published files are questions-only; auto-detect per record so the same
-        # command validates either the public file or the maintainer .full file.
+        # Auto-detect per record: published files include answers, but the same
+        # command also validates an optional questions-only export.
         is_public = args.public or ("answer" not in rec.get("question", {}))
         msgs = fschema.validate_record(rec, include_warnings=True, public=is_public)
         for m in msgs:

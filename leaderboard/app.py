@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
-"""FPS-Bench leaderboard -- a held-out-answer Gradio Space.
+"""FPS-Bench leaderboard -- a Gradio Space.
 
 Users upload a predictions JSONL produced by ``scripts/evaluate.py`` (one object
 per line, ``{"id": "fpsbench_000000", "prediction": "A"}`` or with
-``raw_response``). The Space scores it server-side against the **private** answer
-key and appends the result to a persisted leaderboard. The public dataset is
-questions-only, so answers are never exposed here.
+``raw_response``). The Space scores it and appends the result to a persisted
+leaderboard. The answer key is public (it ships with the dataset), so leaderboard
+numbers are self-reported.
 
 Configuration (Space *Secrets* / *Variables*; sensible local fallbacks):
 
-* ``HF_TOKEN``            -- token with read access to the private answers repo
-                            and write access to the results repo.
-* ``FPSBENCH_ANSWERS_REPO`` -- private dataset id holding ``fpsbench_v1.full.jsonl``
-                            (e.g. ``<your-hf-user>/fpsbench-answers``).
+* ``HF_TOKEN``            -- token with write access to the results repo.
+* ``FPSBENCH_ANSWERS_REPO`` -- dataset id holding ``fpsbench_v1.jsonl`` (with
+                            answers); defaults to ``Kartiksh/fpsbench``.
 * ``FPSBENCH_RESULTS_REPO`` -- dataset id to persist submissions
                             (e.g. ``<your-hf-user>/fpsbench-leaderboard-results``).
 
-For local development, drop ``annotations/fpsbench_v1.full.jsonl`` next to the
-repo root (it is git-ignored) and results persist to ``leaderboard/results.jsonl``.
+For local development, ``annotations/fpsbench_v1.jsonl`` is used if present and
+results persist to ``leaderboard/results.jsonl``.
 
 The scoring logic is the same code path as the CLI: ``scripts.score_predictions``.
 """
@@ -42,9 +41,10 @@ from scripts.score_predictions import score_predictions  # noqa: E402
 # Configuration
 # --------------------------------------------------------------------------- #
 HF_TOKEN = os.environ.get("HF_TOKEN")
-ANSWERS_REPO = os.environ.get("FPSBENCH_ANSWERS_REPO")  # e.g. "<user>/fpsbench-answers"
+# The public dataset ships answers, so scoring reads the published file.
+ANSWERS_REPO = os.environ.get("FPSBENCH_ANSWERS_REPO", "Kartiksh/fpsbench")
 RESULTS_REPO = os.environ.get("FPSBENCH_RESULTS_REPO")  # e.g. "<user>/fpsbench-leaderboard-results"
-ANSWERS_FILENAME = "fpsbench_v1.full.jsonl"
+ANSWERS_FILENAME = "fpsbench_v1.jsonl"
 RESULTS_FILENAME = "results.jsonl"
 
 LOCAL_ANSWERS = REPO_ROOT / "annotations" / ANSWERS_FILENAME
@@ -235,9 +235,9 @@ def build_demo():
     with gr.Blocks(title="FPS-Bench Leaderboard") as demo:
         gr.Markdown(
             "# FPS-Bench Leaderboard\n"
-            "High-frame-rate video understanding. Answers are **held out**: upload "
-            "predictions and we score them server-side. Build a predictions file with "
-            "`scripts/evaluate.py` (see the [repo](https://github.com/KartikSharma907/FPSBench))."
+            "High-frame-rate video understanding. Build a predictions file with "
+            "`scripts/evaluate.py` and upload it to be scored and added to the table "
+            "(see the [repo](https://github.com/KartikSharma907/FPSBench))."
         )
         with gr.Tab("Leaderboard"):
             table = gr.Dataframe(

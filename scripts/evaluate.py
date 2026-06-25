@@ -5,11 +5,9 @@ This is the primary batch evaluation path. It loads an adapter by ``module:Class
 string, builds prompts (never leaking the answer), assembles the requested media
 bundle, collects predictions, and writes a per-example JSONL plus a summary JSON.
 
-The published annotations are questions-only (answers are held out for the
-leaderboard). When run against them, this produces the predictions file but
-cannot score it locally -- submit that file to the leaderboard. If run against
-the maintainer ``fpsbench_v1.full.jsonl`` (which carries answers), it also scores
-and reports accuracy.
+The published ``fpsbench_v1.jsonl`` includes the answer key, so this scores the
+predictions and reports accuracy. You can optionally submit the predictions file
+to the leaderboard as well.
 
 Example (random baseline, text-only, smoke test):
     python scripts/evaluate.py \
@@ -191,9 +189,8 @@ def main():
                     canonical_pred = letter
                     break
 
-        # The published annotations are questions-only (answers held out for the
-        # leaderboard), so the answer key may be absent. When it is, we still emit
-        # the prediction; scoring is deferred to the leaderboard.
+        # The published annotations include the answer key. ``.get`` keeps this
+        # robust to a custom annotations file that happens to omit answers.
         correct_answer = rec["question"].get("answer")
         if canonical_pred is None or correct_answer is None:
             correct = None
@@ -220,34 +217,17 @@ def main():
             flush()
 
     flush()
-    held_out = not any(r.get("correct_answer") is not None for r in results)
-    if held_out:
-        # Questions-only annotations: we produced predictions but cannot score
-        # locally. Write a minimal summary and point the user at the leaderboard.
-        summary = {
-            "held_out": True,
-            "adapter": args.adapter,
-            "media_mode": args.media_mode,
-            "num_examples": len(records),
-            "num_predictions": len(results),
-        }
-    else:
-        summary = compute_metrics(results)
-        summary["held_out"] = False
-        summary["adapter"] = args.adapter
-        summary["media_mode"] = args.media_mode
-        summary["num_examples"] = len(records)
+    summary = compute_metrics(results)
+    summary["adapter"] = args.adapter
+    summary["media_mode"] = args.media_mode
+    summary["num_examples"] = len(records)
     Path(args.summary).parent.mkdir(parents=True, exist_ok=True)
     Path(args.summary).write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
     print(f"Wrote {len(results)} predictions -> {out_path}")
-    if held_out:
-        print("Annotations are questions-only (answers held out): local scoring skipped.")
-        print("Submit the predictions file to the leaderboard to get a score.")
-    else:
-        print(f"Overall accuracy: {summary['overall_accuracy']:.3f} "
-              f"(random baseline {summary['random_baseline']:.2f}), "
-              f"no-answer rate {summary['no_answer_rate']:.3f}")
+    print(f"Overall accuracy: {summary['overall_accuracy']:.3f} "
+          f"(random baseline {summary['random_baseline']:.2f}), "
+          f"no-answer rate {summary['no_answer_rate']:.3f}")
     print(f"Summary -> {args.summary}")
 
 

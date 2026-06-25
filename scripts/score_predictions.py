@@ -8,15 +8,12 @@ or, when only free text is available:
 
 In the latter case the selected ``--answer-parser`` extracts the letter.
 
-Scoring requires the answer key, which is held out of the public release. Pass
-the maintainer-only ``fpsbench_v1.full.jsonl`` (or any annotations file that
-carries ``question.answer``). Public users instead submit predictions to the
-leaderboard, which runs this same scoring server-side against the private
-answers.
+The published ``fpsbench_v1.jsonl`` includes the answer key, so you can score
+locally. Optionally submit the same predictions file to the leaderboard.
 
 Usage:
     python scripts/score_predictions.py \
-        --annotations annotations/fpsbench_v1.full.jsonl \
+        --annotations annotations/fpsbench_v1.jsonl \
         --predictions results/my_predictions.jsonl \
         --summary results/my_summary.json
 """
@@ -40,8 +37,7 @@ def score_predictions(annotations, predictions, *, answer_parser="first_letter")
 
     ``annotations`` and ``predictions`` are each either a path to a JSONL file or
     an already-loaded list of dict records. ``annotations`` must carry the answer
-    key (``question.answer``) -- i.e. the maintainer-only ``fpsbench_v1.full.jsonl``
-    or the private answer set, never the published questions-only file. This is
+    key (``question.answer``) -- the published ``fpsbench_v1.jsonl`` does. This is
     the single scoring code path shared by the CLI below and the leaderboard.
     """
     ann_records = fio.read_jsonl(annotations) if isinstance(annotations, (str, Path)) else annotations
@@ -58,8 +54,8 @@ def score_predictions(annotations, predictions, *, answer_parser="first_letter")
         q = rec["question"]
         if "answer" not in q:
             raise ValueError(
-                "annotations carry no answer key; scoring needs fpsbench_v1.full.jsonl "
-                "(the published fpsbench_v1.jsonl is questions-only)"
+                "annotations carry no answer key; pass fpsbench_v1.jsonl "
+                "(which includes question.answer)"
             )
         allowed = list(q["choices"].keys())
         pred = p.get("prediction")

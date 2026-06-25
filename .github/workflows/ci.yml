@@ -20,11 +20,5 @@ jobs:
         run: pip install -e '.[dev]'
       - name: Unit tests
         run: pytest -q
-      - name: Validate published annotations (questions-only, 0 critical)
+      - name: Validate published annotations (0 critical)
         run: python scripts/validate_annotations.py annotations/fpsbench_v1.jsonl
-      - name: Assert no answer key leaked into the public release
-        run: |
-          if grep -q '"answer"' annotations/fpsbench_v1.jsonl; then
-            echo "ERROR: answer key present in published annotations"; exit 1
-          fi
-          echo "OK: published annotations are questions-only"
