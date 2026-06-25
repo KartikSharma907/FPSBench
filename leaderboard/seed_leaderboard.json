@@ -1,8 +1,18 @@
 [
   {"Model": "Human Performance", "Type": "human", "Overall Acc (%)": 72.2, "95% CI": ""},
-  {"Model": "GPT-4o", "Type": "proprietary VLM (best)", "Overall Acc (%)": 31.8, "95% CI": ""},
-  {"Model": "Oryx", "Type": "open VLM", "Overall Acc (%)": 31.3, "95% CI": ""},
-  {"Model": "Qwen-3-VL-32B", "Type": "open VLM", "Overall Acc (%)": 30.7, "95% CI": ""},
-  {"Model": "Gemini 2.5 Pro", "Type": "proprietary VLM", "Overall Acc (%)": 28.9, "95% CI": ""},
-  {"Model": "Random baseline", "Type": "baseline", "Overall Acc (%)": 25.0, "95% CI": ""}
+  {"Model": "GPT-4o", "Type": "closed-source VLM", "Overall Acc (%)": 31.8, "95% CI": ""},
+  {"Model": "Oryx", "Type": "open-source VLM", "Overall Acc (%)": 31.3, "95% CI": ""},
+  {"Model": "Qwen-3-VL-32B", "Type": "open-source VLM", "Overall Acc (%)": 30.7, "95% CI": ""},
+  {"Model": "Gemini 2.5 Pro", "Type": "closed-source VLM", "Overall Acc (%)": 28.9, "95% CI": ""},
+  {"Model": "InternVL-3.5-8B", "Type": "open-source VLM", "Overall Acc (%)": 28.7, "95% CI": ""},
+  {"Model": "OmniVinci", "Type": "open-source VLM", "Overall Acc (%)": 28.5, "95% CI": ""},
+  {"Model": "Qwen-3-VL-8B", "Type": "open-source VLM", "Overall Acc (%)": 28.0, "95% CI": ""},
+  {"Model": "InternVL-3.5-14B", "Type": "open-source VLM", "Overall Acc (%)": 27.9, "95% CI": ""},
+  {"Model": "LLaVA-1.5", "Type": "open-source image VLM", "Overall Acc (%)": 27.1, "95% CI": ""},
+  {"Model": "LLaVA-OneVision", "Type": "open-source VLM", "Overall Acc (%)": 27.0, "95% CI": ""},
+  {"Model": "LLaVA-NeXT-Video", "Type": "open-source VLM", "Overall Acc (%)": 26.5, "95% CI": ""},
+  {"Model": "DeepSeek-VL2-Small", "Type": "open-source image VLM", "Overall Acc (%)": 26.3, "95% CI": ""},
+  {"Model": "Random baseline", "Type": "baseline", "Overall Acc (%)": 25.0, "95% CI": ""},
+  {"Model": "DeepSeek-VL2-Tiny", "Type": "open-source image VLM", "Overall Acc (%)": 24.6, "95% CI": ""},
+  {"Model": "DeepSeek-VL2-Base", "Type": "open-source image VLM", "Overall Acc (%)": 24.0, "95% CI": ""}
 ]
