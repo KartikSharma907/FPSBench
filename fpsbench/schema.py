@@ -28,32 +28,9 @@ _REQUIRED_CHOICES = ("A", "B", "C", "D")
 _NONE_OF_ABOVE = "None of the above"
 
 
-def build_json_schema(public: bool = False) -> Dict[str, Any]:
-    """Return the JSON Schema (draft 2020-12) for one FPS-Bench record.
-
-    The default (``public=False``) matches the published records, which include
-    the answer key. With ``public=True`` the question's ``answer`` /
-    ``answer_text`` are dropped (for an optional questions-only export).
-    """
-    question_required = ["text", "type", "choices"]
-    question_props = {
-        "text": {"type": "string", "minLength": 1},
-        "type": {"type": "string", "enum": list(TASK_CATEGORIES)},
-        "choices": {
-            "type": "object",
-            "minProperties": 4,
-            "propertyNames": {"enum": list(ANSWER_CHOICES)},
-            "additionalProperties": {"type": "string"},
-        },
-    }
-    if not public:
-        # Full (internal) records carry the answer key; public records must not,
-        # so the answer fields are dropped from both `required` and `properties`
-        # (with additionalProperties:false this makes any leaked answer invalid).
-        question_required += ["answer", "answer_text"]
-        question_props["answer"] = {"type": "string", "enum": list(ANSWER_CHOICES)}
-        question_props["answer_text"] = {"type": "string", "minLength": 1}
-    schema = {
+def build_json_schema() -> Dict[str, Any]:
+    """Return the JSON Schema (draft 2020-12) for one FPS-Bench record."""
+    return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "https://github.com/fps-bench/fpsbench/annotations/fpsbench_v1.schema.json",
         "title": "FPS-Bench annotation record",
@@ -115,8 +92,19 @@ def build_json_schema(public: bool = False) -> Dict[str, Any]:
             "question": {
                 "type": "object",
                 "additionalProperties": False,
-                "required": question_required,
-                "properties": question_props,
+                "required": ["text", "type", "choices", "answer", "answer_text"],
+                "properties": {
+                    "text": {"type": "string", "minLength": 1},
+                    "type": {"type": "string", "enum": list(TASK_CATEGORIES)},
+                    "choices": {
+                        "type": "object",
+                        "minProperties": 4,
+                        "propertyNames": {"enum": list(ANSWER_CHOICES)},
+                        "additionalProperties": {"type": "string"},
+                    },
+                    "answer": {"type": "string", "enum": list(ANSWER_CHOICES)},
+                    "answer_text": {"type": "string", "minLength": 1},
+                },
             },
             "temporal_requirements": {
                 "type": "object",
@@ -157,23 +145,20 @@ def build_json_schema(public: bool = False) -> Dict[str, Any]:
             },
         },
     }
-    return schema
 
 
-def validate_record(
-    record: Dict[str, Any], *, include_warnings: bool = False, public: bool = False
-) -> List[str]:
+def validate_record(record: Dict[str, Any], *, include_warnings: bool = False) -> List[str]:
     """Validate one record. Returns a list of error strings (empty == valid).
 
-    This intentionally does not depend on a JSON Schema library; it implements
-    the structural checks plus cross-field invariants (durations consistent,
-    answer dereferences a real choice).
+    We don't lean on a JSON Schema library here: this also runs the cross-field
+    checks plain JSON Schema can't express (durations are consistent, the answer
+    dereferences a real choice, no private fields leak).
 
-    The temporal-certificate-contained-within-clip check is a *warning*, not a
-    critical error: per the release policy a handful of rows have the
-    certificate slightly outside the clip and are documented under the README's
-    "Data quality" section rather than excluded. Pass ``include_warnings=True``
-    to have such messages appended (prefixed with ``"WARNING: "``).
+    The "certificate contained within the clip" check is a warning, not a
+    critical error. A handful of rows have the certificate slightly outside the
+    clip; they're kept and documented under the README's "Data quality" section
+    rather than excluded. Pass ``include_warnings=True`` to append those
+    (prefixed with ``"WARNING: "``).
     """
     errors: List[str] = []
     warnings: List[str] = []
@@ -206,7 +191,7 @@ def validate_record(
     _validate_time(time_obj, errors, warnings)
 
     q = req(record, "question", dict) or {}
-    _validate_question(q, errors, public=public)
+    _validate_question(q, errors)
 
     tr = req(record, "temporal_requirements", dict) or {}
     min_fps = tr.get("min_fps")
@@ -265,7 +250,7 @@ def _validate_time(time_obj: Dict[str, Any], errors: List[str], warnings: List[s
         warnings.append("temporal certificate interval is not contained within the clip interval")
 
 
-def _validate_question(q: Dict[str, Any], errors: List[str], *, public: bool = False) -> None:
+def _validate_question(q: Dict[str, Any], errors: List[str]) -> None:
     if not q.get("text"):
         errors.append("question.text is empty")
     if q.get("type") not in TASK_CATEGORIES:
@@ -282,15 +267,8 @@ def _validate_question(q: Dict[str, Any], errors: List[str], *, public: bool = F
         elif not isinstance(val, str):
             errors.append(f"question.choices.{letter} must be a string")
     if "E" in choices and choices["E"] != _NONE_OF_ABOVE:
-        # Not fatal, but flagged: E is expected to be the none-of-above sentinel.
+        # E is expected to be the none-of-the-above sentinel.
         errors.append(f"question.choices.E should be {_NONE_OF_ABOVE!r}, got {choices['E']!r}")
-
-    if public:
-        # Public (questions-only) records must NOT carry the answer key.
-        for leaked in ("answer", "answer_text"):
-            if leaked in q:
-                errors.append(f"public record leaks question.{leaked}")
-        return
 
     answer = q.get("answer")
     if answer not in ANSWER_CHOICES:

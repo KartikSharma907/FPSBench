@@ -17,35 +17,7 @@ __all__ = [
     "flatten_record",
     "flat_fieldnames",
     "write_csv",
-    "to_public_record",
-    "to_answer_record",
 ]
-
-
-def to_public_record(rec: Dict[str, Any]) -> Dict[str, Any]:
-    """Return a copy of a canonical record with the answer key removed.
-
-    Drops ``question.answer`` and ``question.answer_text``. Utility for producing
-    a questions-only copy of a record; all other fields are preserved.
-    """
-    import copy
-
-    pub = copy.deepcopy(rec)
-    q = pub.get("question")
-    if isinstance(q, dict):
-        q.pop("answer", None)
-        q.pop("answer_text", None)
-    return pub
-
-
-def to_answer_record(rec: Dict[str, Any]) -> Dict[str, Any]:
-    """Return just the answer key for one record: id + answer(+text)."""
-    q = rec.get("question", {})
-    return {
-        "id": rec["id"],
-        "answer": q.get("answer"),
-        "answer_text": q.get("answer_text"),
-    }
 
 
 def read_jsonl(path) -> List[Dict[str, Any]]:
@@ -125,19 +97,13 @@ _FLAT_FIELDS = [
 ]
 
 
-# Answer-key columns, dropped when writing a questions-only CSV (public=True).
-_ANSWER_FIELDS = ("answer", "answer_text")
-
-
-def flat_fieldnames(public: bool = False) -> List[str]:
-    """Flat CSV column order. With ``public=True`` the answer columns are dropped."""
-    if public:
-        return [c for c in _FLAT_FIELDS if c not in _ANSWER_FIELDS]
+def flat_fieldnames() -> List[str]:
+    """The CSV column order, matching ``flatten_record``."""
     return list(_FLAT_FIELDS)
 
 
 def flatten_record(rec: Dict[str, Any]) -> Dict[str, Any]:
-    """Flatten a nested canonical record into a single-level dict for CSV/XLSX."""
+    """Flatten a nested record into the single-level row used for the CSV."""
     src = rec["source"]
     t = rec["time"]
     q = rec["question"]
@@ -184,19 +150,15 @@ def flatten_record(rec: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def write_csv(path, records: Iterable[Dict[str, Any]], public: bool = False) -> int:
-    """Write flattened records to CSV. Returns number of rows written.
-
-    With ``public=True`` the answer columns are omitted (questions-only export).
-    """
+def write_csv(path, records: Iterable[Dict[str, Any]]) -> int:
+    """Write flattened records to CSV. Returns the number of rows written."""
     import csv
 
-    fields = flat_fieldnames(public=public)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     n = 0
     with open(path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
+        writer = csv.DictWriter(f, fieldnames=_FLAT_FIELDS, extrasaction="ignore")
         writer.writeheader()
         for rec in records:
             writer.writerow(flatten_record(rec))

@@ -25,11 +25,8 @@ from fpsbench.youtube import is_valid_video_id  # noqa: E402
 
 def main():
     ap = argparse.ArgumentParser(description="Validate FPS-Bench annotations JSONL.")
-    ap.add_argument("jsonl", help="path to a fpsbench JSONL (published or .full)")
+    ap.add_argument("jsonl", help="path to annotations/fpsbench_v1.jsonl")
     ap.add_argument("--show-warnings", action="store_true", help="print noncritical warnings too")
-    ap.add_argument("--public", action="store_true",
-                    help="force questions-only validation (answer key must be absent); "
-                         "by default each record is auto-detected from whether it carries an answer")
     args = ap.parse_args()
 
     records = fio.read_jsonl(args.jsonl)
@@ -59,10 +56,7 @@ def main():
         video_ids.add(vid)
         urls.add(rec.get("source", {}).get("url"))
 
-        # Auto-detect per record: published files include answers, but the same
-        # command also validates an optional questions-only export.
-        is_public = args.public or ("answer" not in rec.get("question", {}))
-        msgs = fschema.validate_record(rec, include_warnings=True, public=is_public)
+        msgs = fschema.validate_record(rec, include_warnings=True)
         for m in msgs:
             if m.startswith("WARNING: "):
                 n_warning += 1

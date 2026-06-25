@@ -100,49 +100,6 @@ def test_json_schema_buildable():
     assert s["title"] == "FPS-Bench annotation record" and "properties" in s
 
 
-def test_public_schema_drops_answer_from_required():
-    s = build_json_schema(public=True)
-    req = s["properties"]["question"]["required"]
-    assert "answer" not in req and "answer_text" not in req
-    assert "text" in req and "choices" in req
-
-
-# --------------------------------------------------------------------------- #
-# public / private (held-out answer) split
-# --------------------------------------------------------------------------- #
-def test_to_public_record_strips_answer():
-    from fpsbench import io as fio
-
-    pub = fio.to_public_record(_valid_record())
-    assert "answer" not in pub["question"]
-    assert "answer_text" not in pub["question"]
-    # everything else is preserved and the source is untouched
-    assert pub["question"]["choices"]["A"] == "3"
-    assert _valid_record()["question"]["answer"] == "A"  # original not mutated
-
-
-def test_to_answer_record_keeps_only_answer():
-    from fpsbench import io as fio
-
-    ans = fio.to_answer_record(_valid_record())
-    assert ans == {"id": "fpsbench_000000", "answer": "A", "answer_text": "3"}
-
-
-def test_public_record_validates_in_public_mode_and_fails_strict():
-    from fpsbench import io as fio
-
-    pub = fio.to_public_record(_valid_record())
-    assert validate_record(pub, public=True) == []
-    # strict (default) mode must flag the missing answer key
-    assert any("answer" in e for e in validate_record(pub))
-
-
-def test_public_validation_rejects_leaked_answer():
-    r = _valid_record()  # still carries answer/answer_text
-    msgs = validate_record(r, public=True)
-    assert any("leaks question.answer" in m for m in msgs)
-
-
 def test_missing_min_fps_fails():
     r = _valid_record(); r["temporal_requirements"]["min_fps"] = None
     assert any("min_fps" in e for e in validate_record(r))
