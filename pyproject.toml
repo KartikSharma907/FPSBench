@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fpsbench"
+version = "1.0.0"
+description = "FPS-Bench: a benchmark for high-frame-rate video understanding (annotations + evaluation code)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "FPS-Bench authors, Carnegie Mellon University" }]
+keywords = ["video", "benchmark", "vlm", "temporal", "high-frame-rate", "videoqa"]
+# The core library (reading annotations, evaluating, scoring) is pure-stdlib.
+dependencies = []
+
+[project.optional-dependencies]
+ingest = ["pandas>=1.5", "openpyxl>=3.1"]   # only needed to regenerate from the source .xlsx
+download = ["yt-dlp>=2024.1.0", "opencv-python>=4.8"]  # user-side clip download / frame extraction
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+fpsbench-ingest = "scripts.ingest_release:main"
+fpsbench-validate = "scripts.validate_annotations:main"
+fpsbench-prepare = "scripts.prepare_dataset:main"
+fpsbench-evaluate = "scripts.evaluate:main"
+fpsbench-score = "scripts.score_predictions:main"
+
+[tool.setuptools]
+packages = ["fpsbench", "fpsbench.adapters", "scripts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

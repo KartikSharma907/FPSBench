@@ -1,0 +1,90 @@
+{
+  "num_examples": 1000,
+  "num_unique_source_urls": 592,
+  "num_unique_youtube_ids": 592,
+  "paper_unique_video_count": 554,
+  "unique_video_count_matches_paper": false,
+  "task_category_counts": {
+    "instance_count": 117,
+    "repetitive_motion": 113,
+    "synchronization_assessment": 111,
+    "speed_recognition": 110,
+    "fine_grained_motion": 110,
+    "action_order": 110,
+    "state_at_event": 110,
+    "causality_detection": 110,
+    "blink_and_miss": 109
+  },
+  "visual_domain_counts": {
+    "Sports & Fitness": 374,
+    "Hobbies & Gaming": 191,
+    "Media & Entertainment": 178,
+    "Miscellaneous": 168,
+    "Vehicles": 89
+  },
+  "visual_domain_fine_counts": {
+    "Sports & Fitness": 374,
+    "Hobbies & Gaming": 191,
+    "Media & Entertainment": 178,
+    "Vehicles": 89,
+    "Lifestyle": 78,
+    "Technology & Infrastructure": 37,
+    "Animals": 36,
+    "Other": 17
+  },
+  "visual_subdomain_counts": {
+    "Team Sports": 192,
+    "Individual Sports": 165,
+    "Video Gaming": 129,
+    "Music": 103,
+    "Ground Vehicles": 87,
+    "Games & Hobbies": 62,
+    "Performing Arts": 53,
+    "Food & Drink": 51,
+    "Pets": 29,
+    "Art & Beauty": 27,
+    "Film & Animation": 22,
+    "Tech & Electronics": 19,
+    "Tools, Home & Science": 18,
+    "Fitness & Recreation": 17,
+    "Miscellaneous": 17,
+    "Wildlife & Farm": 7,
+    "Air & Sea": 2
+  },
+  "min_fps": {
+    "count": 1000,
+    "min": 4,
+    "max": 30,
+    "mean": 6.675,
+    "median": 6.0,
+    "bucket_counts": {
+      "7": 133,
+      "10+": 93,
+      "8-10": 158,
+      "4": 254,
+      "5": 209,
+      "6": 153
+    }
+  },
+  "clip_duration_sec": {
+    "count": 1000,
+    "min": 2.0,
+    "max": 25.0,
+    "mean": 8.853,
+    "median": 9.0
+  },
+  "temporal_certificate_duration_sec": {
+    "count": 1000,
+    "min": 1.0,
+    "max": 18.0,
+    "mean": 4.989,
+    "median": 4.0
+  },
+  "availability_checked_utc": null,
+  "sha256_jsonl": "0a745c929925f45992e8401f2bd24c5781e9d9593e0900fbfa7c347bdc4e1ca8",
+  "generated_utc": "2026-06-23T10:10:01.402943+00:00",
+  "source_inputs": {
+    "input_xlsx": "FPS-Bench Public Release.xlsx",
+    "paper_pdf": "CVPR2026_FPSBench.pdf"
+  }
+}

@@ -1,0 +1,60 @@
+cff-version: 1.2.0
+title: "FPS-Bench: A Benchmark for High Frame-Rate Video Understanding"
+message: "If you use FPS-Bench, please cite the CVPR 2026 paper."
+type: dataset
+authors:
+  - family-names: Choudhury
+    given-names: Rohan
+  - family-names: Dandurand
+    given-names: Jean-Sebastien
+  - family-names: Qiu
+    given-names: Kai
+  - family-names: Bhat
+    given-names: Kshitij Madhav
+  - family-names: Sharma
+    given-names: Kartik
+  - family-names: Dahiya
+    given-names: Liza
+  - family-names: Zhao
+    given-names: Yizhou
+  - family-names: Kundu
+    given-names: Souraja
+  - family-names: Lin
+    given-names: Chun-Hsien
+  - family-names: Kitani
+    given-names: Kris M.
+  - family-names: Jeni
+    given-names: László A.
+version: "1.0.0"
+date-released: "2026-06-13"
+license: "CC-BY-4.0"
+preferred-citation:
+  type: conference-paper
+  title: "FPS-Bench: A Benchmark for High Frame-Rate Video Understanding"
+  authors:
+    - family-names: Choudhury
+      given-names: Rohan
+    - family-names: Dandurand
+      given-names: Jean-Sebastien
+    - family-names: Qiu
+      given-names: Kai
+    - family-names: Bhat
+      given-names: Kshitij Madhav
+    - family-names: Sharma
+      given-names: Kartik
+    - family-names: Dahiya
+      given-names: Liza
+    - family-names: Zhao
+      given-names: Yizhou
+    - family-names: Kundu
+      given-names: Souraja
+    - family-names: Lin
+      given-names: Chun-Hsien
+    - family-names: Kitani
+      given-names: Kris M.
+    - family-names: Jeni
+      given-names: László A.
+  collection-title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+  year: 2026
+  institution:
+    name: "Carnegie Mellon University"
