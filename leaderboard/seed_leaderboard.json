@@ -1,8 +1,8 @@
 [
-  {"Model": "Human Performance", "Type": "human", "Overall Acc (%)": 72.2, "95% CI": "", "minFPS 4": null, "minFPS 10+": null, "No-answer (%)": null, "# scored": 1000, "Submitted": "paper"},
-  {"Model": "GPT-4o", "Type": "proprietary VLM (best)", "Overall Acc (%)": 31.8, "95% CI": "", "minFPS 4": null, "minFPS 10+": null, "No-answer (%)": null, "# scored": 1000, "Submitted": "paper"},
-  {"Model": "Oryx", "Type": "open VLM", "Overall Acc (%)": 31.3, "95% CI": "", "minFPS 4": null, "minFPS 10+": null, "No-answer (%)": null, "# scored": 1000, "Submitted": "paper"},
-  {"Model": "Qwen-3-VL-32B", "Type": "open VLM", "Overall Acc (%)": 30.7, "95% CI": "", "minFPS 4": null, "minFPS 10+": null, "No-answer (%)": null, "# scored": 1000, "Submitted": "paper"},
-  {"Model": "Gemini 2.5 Pro", "Type": "proprietary VLM", "Overall Acc (%)": 28.9, "95% CI": "", "minFPS 4": null, "minFPS 10+": null, "No-answer (%)": null, "# scored": 1000, "Submitted": "paper"},
-  {"Model": "Random baseline", "Type": "baseline", "Overall Acc (%)": 25.0, "95% CI": "", "minFPS 4": null, "minFPS 10+": null, "No-answer (%)": null, "# scored": 1000, "Submitted": "paper"}
+  {"Model": "Human Performance", "Type": "human", "Overall Acc (%)": 72.2, "95% CI": ""},
+  {"Model": "GPT-4o", "Type": "proprietary VLM (best)", "Overall Acc (%)": 31.8, "95% CI": ""},
+  {"Model": "Oryx", "Type": "open VLM", "Overall Acc (%)": 31.3, "95% CI": ""},
+  {"Model": "Qwen-3-VL-32B", "Type": "open VLM", "Overall Acc (%)": 30.7, "95% CI": ""},
+  {"Model": "Gemini 2.5 Pro", "Type": "proprietary VLM", "Overall Acc (%)": 28.9, "95% CI": ""},
+  {"Model": "Random baseline", "Type": "baseline", "Overall Acc (%)": 25.0, "95% CI": ""}
 ]

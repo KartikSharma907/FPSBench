@@ -26,7 +26,6 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -54,11 +53,10 @@ SEED_FILE = Path(__file__).resolve().parent / "seed_leaderboard.json"
 
 EXPECTED_NUM_EXAMPLES = 1000
 
-# Leaderboard columns surfaced in the UI table.
-DISPLAY_COLUMNS = [
-    "Model", "Type", "Overall Acc (%)", "95% CI", "minFPS 4", "minFPS 10+",
-    "No-answer (%)", "# scored", "Submitted",
-]
+# Leaderboard columns surfaced in the UI table. The full per-bucket / no-answer
+# breakdowns are still computed and kept in each row's "_summary" for download,
+# they are just not shown in the ranking table.
+DISPLAY_COLUMNS = ["Model", "Type", "Overall Acc (%)", "95% CI"]
 
 
 # --------------------------------------------------------------------------- #
@@ -162,16 +160,16 @@ def validate_predictions(preds: List[Dict], valid_ids: set) -> Optional[str]:
 
 
 def summary_to_row(model: str, model_type: str, summary: Dict) -> Dict:
-    """Flatten a compute_metrics summary into a leaderboard table row."""
+    """Flatten a compute_metrics summary into a leaderboard table row.
+
+    Only the ranking columns are surfaced (see DISPLAY_COLUMNS); the full metrics
+    (per-task / per-domain / per-minFPS breakdowns, no-answer rate, counts) are
+    retained under "_summary" for transparency.
+    """
     ci = summary.get("overall_accuracy_95ci") or [None, None]
-    by_fps = summary.get("accuracy_by_min_fps_bucket", {})
 
     def pct(x):
         return round(100 * x, 1) if isinstance(x, (int, float)) else None
-
-    def bucket_acc(b):
-        d = by_fps.get(b)
-        return pct(d["accuracy"]) if isinstance(d, dict) and "accuracy" in d else None
 
     return {
         "Model": model,
@@ -179,12 +177,6 @@ def summary_to_row(model: str, model_type: str, summary: Dict) -> Dict:
         "Overall Acc (%)": pct(summary.get("overall_accuracy")),
         "95% CI": (f"[{pct(ci[0])}, {pct(ci[1])}]"
                    if ci and ci[0] is not None else ""),
-        "minFPS 4": bucket_acc("4"),
-        "minFPS 10+": bucket_acc("10+"),
-        "No-answer (%)": pct(summary.get("no_answer_rate")),
-        "# scored": summary.get("num_scored"),
-        "Submitted": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        # keep the full metrics for transparency / re-rendering
         "_summary": summary,
     }
 
