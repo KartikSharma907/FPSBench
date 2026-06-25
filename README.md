@@ -1,9 +1,8 @@
 # FPS-Bench
 
 FPS-Bench is a benchmark for high-frame-rate video understanding. It's a
-multiple-choice VideoQA benchmark aimed at the kind of question you can't answer
-from a few sparsely sampled frames — ones that hinge on fast, fine-grained
-motion.
+multiple-choice VideoQA benchmark aimed at high fps temporal reasoning questions that you can't answer
+from a few sparsely sampled frames.
 
 The benchmark is built around **minFPS**: the lowest frame rate at which a human
 can reliably answer a question. Every example requires a minFPS of at least 4,
@@ -30,8 +29,8 @@ Annotations, metadata, and evaluation code. No videos.
 * A small Python package (`fpsbench/`) and CLI scripts for preparing media,
   running evaluations, and scoring predictions.
 
-You bring the videos. The release ships no clips, frames, thumbnails, or cached
-media; you access the source videos yourself under YouTube's Terms of Service,
+The release has no clips, frames, thumbnails, or cached
+media; you can access the source videos yourself under YouTube's Terms of Service,
 the source licenses, copyright law, and your institution's policy (see
 [Terms of use](#terms-of-use)).
 
@@ -61,10 +60,10 @@ pip install -e ".[dev]"          # + pytest
 ## Quick start
 
 ```bash
-# Validate the shipped annotations (must pass with 0 critical errors)
+# Validate the shipped annotations
 python scripts/validate_annotations.py annotations/fpsbench_v1.jsonl
 
-# Build a metadata-only local manifest (NO download)
+# Build a metadata-only local manifest
 python scripts/prepare_dataset.py \
   --annotations annotations/fpsbench_v1.jsonl \
   --output-dir data/fpsbench_v1 --mode manifest
@@ -155,19 +154,12 @@ Field notes:
 - **`categories.visual_domain`** — the paper-compatible five-way domain;
   `visual_domain_fine` / `visual_subdomain` give a finer taxonomy.
 
-**Cross-field invariants** enforced by `validate_record`: clip/certificate
-`start < end`; `answer` references an existing choice and `answer_text` matches
-it; `min_fps ≥ 4`; no internal columns present. The internal source columns
-`annotator`, `FPS Annotator 1`, and `media_S3_link` are **removed** and validation
-rejects any record that carries them. (Certificate-contained-within-clip is a
-*warning*, not a critical error — see [Data quality](#data-quality).)
-
-## Preparing media (your responsibility, opt-in)
+## Preparing media
 
 `scripts/prepare_dataset.py` is metadata-only by default — the default
 `--mode manifest` never touches the network. Anything it downloads or derives
 lands in a cache directory (`--cache-dir`, else `$FPSBENCH_CACHE`, else
-`~/.cache/fpsbench`), never under `annotations/` and never committed.
+`~/.cache/fpsbench`), never under `annotations/`.
 
 | mode | network | what it does |
 |------|---------|--------------|
@@ -230,10 +222,7 @@ letter via choice text), `--exclude-none-of-above`. Run control: `--resume`,
 `--save-every`.
 
 **Metrics** (`fpsbench.metrics.compute_metrics`, also used by
-`score_predictions.py`): overall exact-match accuracy with a 95% bootstrap CI, the
-random baseline reference (0.20), accuracy by task category / visual domain /
-visual subdomain / minFPS bucket (4, 5, 6, 7, 8–10, 10+) / clip-duration bucket,
-the no-answer/invalid rate, and per-group counts.
+`score_predictions.py`)
 
 Prediction file schema (JSONL) for `score_predictions.py`:
 `{"id": "fpsbench_000000", "prediction": "A", "raw_response": "A. ..."}`. If
@@ -251,10 +240,7 @@ also appear on the public leaderboard:
 
 ➡️ **Leaderboard:** https://huggingface.co/spaces/Kartiksh/fpsbench-leaderboard
 
-The Space uses the same scoring code path as `scripts/score_predictions.py`
-(`score_predictions()`), reporting overall accuracy with a 95% bootstrap CI plus
-per-task / per-domain / per-minFPS breakdowns. The leaderboard source lives in
-[`leaderboard/`](leaderboard/). Because the answers are public, leaderboard
+The leaderboard source lives in [`leaderboard/`](leaderboard/). Because the answers are public, leaderboard
 numbers are self-reported.
 
 ## Dataset statistics
@@ -268,31 +254,10 @@ numbers are self-reported.
 synchronization_assessment 111, speed_recognition 110, fine_grained_motion 110,
 action_order 110, state_at_event 110, causality_detection 110, blink_and_miss 109.
 
-**Visual domains (paper five-way):** Sports & Fitness 374, Hobbies & Gaming 191,
+**Visual domains:** Sports & Fitness 374, Hobbies & Gaming 191,
 Media & Entertainment 178, Miscellaneous 168, Vehicles 89.
 
-Full machine-readable stats: [annotations/fpsbench_v1_stats.json](annotations/fpsbench_v1_stats.json).
-
-## Data quality
-
-A few things worth knowing about the released data. None of these are critical
-errors; the affected rows are kept and flagged.
-
-- **Certificate just outside the clip (5 rows).** For a handful of examples the
-  temporal certificate isn't fully contained in the clip window. The timestamps
-  parse fine — only the containment check fails — so validation reports it as a
-  warning rather than dropping the row.
-- **Two repaired timestamps.** Two clearly-typo'd time strings were fixed
-  deterministically during ingestion (e.g. a stray `.` where a `:` was meant),
-  and the repair is recorded rather than guessed at.
-- **One missing source category** fell back to *Other / Miscellaneous*.
-- **Unique-video count.** The paper reports 554 source videos; this release has
-  592 unique YouTube IDs (`unique_video_count_matches_paper: false` in the stats
-  file). It's surfaced here rather than quietly reconciled.
-
-Source videos also come and go over time, so exact reproduction isn't guaranteed
-if a video is removed (`prepare_dataset.py --mode check` records an availability
-snapshot).
+Full stats: [annotations/fpsbench_v1_stats.json](annotations/fpsbench_v1_stats.json).
 
 ## Terms of use
 
